@@ -7,8 +7,8 @@
     <ProjectGuid>{108CEFCD-3617-4C60-BDF3-D1F77636FB62}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MasterConfiguration</RootNamespace>
-    <AssemblyName>MasterConfiguration</AssemblyName>
+    <RootNamespace>ProductivityTools.MasterConfiguration</RootNamespace>
+    <AssemblyName>ProductivityTools.MasterConfiguration</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
