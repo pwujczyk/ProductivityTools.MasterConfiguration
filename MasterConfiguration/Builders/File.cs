@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace MasterConfiguration.Builders
+namespace ProductivityTools.MasterConfiguration.Builders
 {
     class File
     {
