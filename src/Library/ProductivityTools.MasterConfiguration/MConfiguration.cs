@@ -15,7 +15,7 @@ namespace ProductivityTools.MasterConfiguration
 
         static MConfiguration()
         {
-            ConfigurationFileName = "Configuration.dll.config";
+            ConfigurationFileName = "Configuration.xml";
         }
 
         public static MConfiguration Configuration

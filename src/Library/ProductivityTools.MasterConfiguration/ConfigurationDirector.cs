@@ -28,6 +28,7 @@ namespace ProductivityTools.MasterConfiguration
                 case SourceType.File:
                     return fileBuilder.GetValue(key);
                 case SourceType.SqlServer:
+                    
                 case SourceType.HTTP:
                 case SourceType.NetPipes:
                 default:
