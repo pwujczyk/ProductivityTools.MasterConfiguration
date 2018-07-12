@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductivityTools.MasterConfiguration.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Xml.Linq;
 
 namespace ProductivityTools.MasterConfiguration.Builders
 {
-    class File
+    class File : IFile
     {
         public string ConfigurationFile;
         private bool CurrentDomain;
@@ -57,8 +58,8 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             get
             {
-                var query = (from c in Xml.Root.Descendants("Source") select c).Single();
-                if (query.Value == "ConfigurationFile")
+                var xx = Xml.Root.Element("Source");
+                if (xx.Attribute("Type").Value == "File")
                 {
                     return SourceType.File;
                 }
@@ -68,7 +69,16 @@ namespace ProductivityTools.MasterConfiguration.Builders
 
         public string GetValue(string key)
         {
-            var query = Xml.Descendants("ApplicationConfiguration").Descendants(key).Single();
+            var valueXml = Xml.Descendants("ApplicationConfiguration").Descendants(key).ToList();
+            if (valueXml.Any()==false)
+            {
+                throw new KeyNotExists($"Key {key} doesn't exist in the config file");
+            }
+            if (valueXml.Count()>1)
+            {
+                throw new KeyDeclaredMoreThanOne($"Key {key} is declared more than once in config file");
+            }
+            var query = valueXml.Single();
             return query.Value;
         }
     }

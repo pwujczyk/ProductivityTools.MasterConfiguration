@@ -41,7 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\File.cs" />
+    <Compile Include="Builders\IBuilder.cs" />
+    <Compile Include="Builders\IFile.cs" />
     <Compile Include="ConfigurationDirector.cs" />
+    <Compile Include="Exceptions\KeyDeclaredMoreThanOne.cs" />
+    <Compile Include="Exceptions\KeyNotExists.cs" />
     <Compile Include="MConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SourceType.cs" />
