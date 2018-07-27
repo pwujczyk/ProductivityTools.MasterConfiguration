@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductivityTools.MasterConfiguration.Directors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,21 +10,29 @@ namespace ProductivityTools.MasterConfiguration
 {
     public class MConfiguration
     {
+        private static string DefaultConfigurationFileName = "Configuration.xml";
         private static string ConfigurationFileName;
         private static bool CurrentDomain = false;
-        static MConfiguration configuration = new MConfiguration();
+        //static readonly MConfiguration configuration = new MConfiguration();
 
         static MConfiguration()
         {
-            ConfigurationFileName = "Configuration.xml";
+            ConfigurationFileName = DefaultConfigurationFileName;
         }
 
-        public static MConfiguration Configuration
+        public static MConfiguration Configuration { get; } = new MConfiguration();
+
+        //public static MConfiguration Configuration
+        //{
+        //    get
+        //    {
+        //        return configuration;
+        //    }
+        //}
+
+        public static void ResetConfiguraiton()
         {
-            get
-            {
-                return configuration;
-            }
+            ConfigurationFileName = DefaultConfigurationFileName;
         }
 
         public string this[string key]
@@ -43,6 +52,12 @@ namespace ProductivityTools.MasterConfiguration
         public static void SetCurrentDomainPath(bool currentDomain)
         {
             CurrentDomain = currentDomain;
+        }
+
+        public static void MigrateConfiguration(bool ovverideExistingOnes)
+        {
+            var director = new MigrationDirector(ConfigurationFileName, CurrentDomain);
+            director.Migrate(ovverideExistingOnes);
         }
     }
 }

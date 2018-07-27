@@ -10,8 +10,6 @@ namespace ProductivityTools.MasterConfiguration.Tests
     [TestClass]
     public class FileUnitTests : BaseTests
     {
-
-
         private void ClearDirectoryFromConfigs()
         {
             var files = Directory.GetFiles(AssemblyDirectory);
@@ -23,6 +21,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
 
         private void SetFileConfiguration(string name)
         {
+            Tools.LogToFile("SetFile");
             string text = @"<Configuration>
                                 <Source Type=""File""></Source>
                                 <ApplicationConfiguration>
@@ -35,6 +34,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
 
         private void SetFileConfigurationWithTwoSameValues(string name)
         {
+            Tools.LogToFile("SetFile");
             string text = @"<Configuration>
                                 <Source Type=""File""></Source>
                                 <ApplicationConfiguration>
@@ -75,7 +75,6 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void GetFileValueFromDifferentConfigurationFileAnfFileMissing()
         {
             ClearDirectoryFromConfigs();
-            SetFileConfiguration(DefaultFileName);
             
             MConfiguration.SetConfigurationName("Pawel.xml");
             var x = MConfiguration.Configuration["Key1"];

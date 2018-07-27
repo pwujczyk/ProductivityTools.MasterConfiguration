@@ -6,29 +6,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ProductivityTools.MasterConfiguration
+namespace ProductivityTools.MasterConfiguration.Directors
 {
-    class ConfigurationDirector
+    class ConfigurationDirector : BaseDirector
     {
-        public string ConfigurationFileName;
-        private bool CurrentDomain;
-
-        public ConfigurationDirector(string configurationFileName, bool currentDomain)
+        public ConfigurationDirector(string configurationFileName, bool currentDomain) : base(configurationFileName, currentDomain)
         {
-            this.ConfigurationFileName = configurationFileName;
-            this.CurrentDomain = currentDomain;
         }
 
 
         public string GetValue(string key)
         {
+            Tools.LogToFile(ConfigurationFileName);
+            Tools.WriteFile("ConfigurationDirectorGedValue", ConfigurationFileName);
             File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
+            Tools.LogToFile($"SourceType {fileBuilder.SourceType}");
+            Tools.WriteFile("GetValueFirst", ConfigurationFileName);
             switch (fileBuilder.SourceType)
             {
                 case SourceType.File:
                     return fileBuilder.GetValue(key);
                 case SourceType.SqlServer:
-                    
+                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key);
                 case SourceType.HTTP:
                 case SourceType.NetPipes:
                 default:
