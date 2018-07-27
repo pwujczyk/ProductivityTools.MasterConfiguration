@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductivityTools.MasterConfiguration.Tests.SQL
+namespace ProductivityTools.MasterConfiguration.Tests.Management
 {
     public class DatabaseSetup
     {
@@ -31,30 +31,17 @@ namespace ProductivityTools.MasterConfiguration.Tests.SQL
             {
                 string query = $"SELECT [Name] FROM sys.databases WHERE [Name] = '{databaseName}'";
                 SqlCommand sqlComm2 = new SqlCommand(query, sqlConnection);
-                try
+                sqlConnection.Open();
+                var returnValue = sqlComm2.ExecuteScalar();
+                if (returnValue == null)
                 {
-                    sqlConnection.Open();
-                    var returnValue = sqlComm2.ExecuteScalar();
-                    if (returnValue == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return false;
                 }
-                catch (Exception ex)
+                else
                 {
-                    //pw: add here
-                    throw ex;
+                    return true;
                 }
-                //pw: correctit
-                throw new Exception();
             }
         }
-
-     
-
     }
 }

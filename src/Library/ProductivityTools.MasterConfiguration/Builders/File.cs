@@ -1,4 +1,5 @@
 ﻿using ProductivityTools.MasterConfiguration.Exceptions;
+using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Xml.Linq;
 
 namespace ProductivityTools.MasterConfiguration.Builders
 {
-    class File //: IFile
+    class File
     {
         private const string ApplicationConfiguration = "ApplicationConfiguration";
 
@@ -19,13 +20,11 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             get
             {
-
                 var connectionStringNode = SourceElement.Element("ConnectionString");
                 var connectionString = connectionStringNode.Attribute("Value");
                 return connectionString.Value;
             }
         }
-
 
         public string Schema
         {
@@ -50,6 +49,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
             this.ConfigurationFile = configurationFile;
             this.CurrentDomain = currentDomain;
         }
+
         private string GetAssemblyDirectory
         {
             get
@@ -83,7 +83,6 @@ namespace ProductivityTools.MasterConfiguration.Builders
 
                 var xml = XDocument.Load(GetConfigurationPath);
                 return xml;
-
             }
         }
 
@@ -100,39 +99,30 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             get
             {
-                //pw:change it
-
                 var sourceTypeString = SourceElement.Attribute("Type").Value;
-                if (sourceTypeString == "File")
+                switch (sourceTypeString)
                 {
-                    return SourceType.File;
+                    case "File": return SourceType.File;
+                    case "SQLServer": return SourceType.SqlServer;
+                    default:
+                        throw new Exception("not suported sourceType");
                 }
-                if (sourceTypeString == "SQLServer")
-                {
-                    return SourceType.SqlServer;
-                }
-                throw new Exception("not suported sourceType");
             }
         }
 
-        private void GetConnectionString(XElement xx)
-        {
-        }
-
-        //pw:todo
-        public Dictionary<string, string> GetAllValues()
+        public List<ConfigItem> GetAllValues()
         {
             var valueXml = Xml.Descendants(ApplicationConfiguration).Descendants().ToList();
-            Dictionary<string, string> x = new Dictionary<string, string>();
+            List<ConfigItem> configItemsList = new List<ConfigItem>();
             foreach (var item in valueXml)
             {
-                string key = item.Name.LocalName;
-                string value = item.Value;
-                x.Add(key, value);
+                var config = new ConfigItem();
+                config.Key = item.Name.LocalName;
+                config.Value = item.Value;
+                configItemsList.Add(config);
             }
 
-            return x;
-
+            return configItemsList;
         }
 
         public string GetValue(string key)

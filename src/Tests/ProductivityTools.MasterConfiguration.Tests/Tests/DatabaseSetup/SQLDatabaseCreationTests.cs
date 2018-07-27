@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ProductivityTools.MasterConfiguration.Tests.Management;
 using ProductivityTools.MasterConfiguration.SQL;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductivityTools.MasterConfiguration.Tests.SQL
+namespace ProductivityTools.MasterConfiguration.Tests
 {
     [TestClass]
     public class SQLDatabaseCreationTests

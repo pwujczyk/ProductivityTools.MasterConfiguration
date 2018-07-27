@@ -1,4 +1,5 @@
 ﻿using ProductivityTools.MasterConfiguration.Builders;
+using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 {
     public class MigrationDirector : BaseDirector
     {
-        public MigrationDirector(string configurationFileName, bool currentDomain) : base(configurationFileName, currentDomain)
-        {
-        }
+        public MigrationDirector(string configurationFileName, bool currentDomain) : base(configurationFileName, currentDomain) { }
 
         public void Migrate(bool ovverideExistingOnes)
         {
@@ -20,7 +19,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 
             IBuilder targetBuilder = new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table);
 
-            Action<string,string> ActionToPerform;
+            Action<ConfigItem> ActionToPerform;
             if (ovverideExistingOnes)
             {
                 ActionToPerform = targetBuilder.InsertOrUpdate;
@@ -32,7 +31,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 
             foreach (var value in fileValues)
             {
-                ActionToPerform(value.Key, value.Value);
+                ActionToPerform(value);
             }
         }
     }

@@ -13,7 +13,6 @@ namespace ProductivityTools.MasterConfiguration
         private static string DefaultConfigurationFileName = "Configuration.xml";
         private static string ConfigurationFileName;
         private static bool CurrentDomain = false;
-        //static readonly MConfiguration configuration = new MConfiguration();
 
         static MConfiguration()
         {
@@ -21,14 +20,6 @@ namespace ProductivityTools.MasterConfiguration
         }
 
         public static MConfiguration Configuration { get; } = new MConfiguration();
-
-        //public static MConfiguration Configuration
-        //{
-        //    get
-        //    {
-        //        return configuration;
-        //    }
-        //}
 
         public static void ResetConfiguraiton()
         {

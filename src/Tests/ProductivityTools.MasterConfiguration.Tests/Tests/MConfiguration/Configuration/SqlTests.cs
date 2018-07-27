@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ProductivityTools.MasterConfiguration.Models;
 using ProductivityTools.MasterConfiguration.SQL;
-using ProductivityTools.MasterConfiguration.Tests.SQL;
+using ProductivityTools.MasterConfiguration.Tests.Management;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -15,7 +16,6 @@ namespace ProductivityTools.MasterConfiguration.Tests
     [TestClass]
     public class SqlTests : BaseTests
     {
-
         [ClassInitialize()]
         public static void ClassInit(TestContext context)
         {
@@ -27,7 +27,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
         [ClassCleanup()]
         public static void AssemblyCleanup()
         {
-            // new DatabaseSetup().DropDatabase();
+            //    new DatabaseSetup().DropDatabase();
         }
 
         private void SetSQLConfigurationDefaultFileName(string name)
@@ -46,9 +46,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
             Tools.LogToFile("Saved config");
             Tools.LogToFile(text);
             Tools.WriteFile("SaveConfig from file", resultDirectory);
-
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(ProductivityTools.MasterConfiguration.Exceptions.KeyNotExists))]
@@ -70,18 +68,11 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void GetSqlExampleValue()
         {
             SetSQLConfigurationDefaultFileName(DefaultFileName);
-            string key = "examplekey124";
-            string value = "exampleValue123";
-            new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, key, value);
+            var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = "TestApplication" };
+            new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
             MConfiguration.ResetConfiguraiton();
-            var x = MConfiguration.Configuration[key];
-            Assert.AreEqual(value, x, "Example value from database");
-
-        }
-
-        //pw: todo
-        public void TestFilemigration()
-        {
+            var x = MConfiguration.Configuration[configItem.Key];
+            Assert.AreEqual(configItem.Value, x, "Example value from database");
 
         }
     }

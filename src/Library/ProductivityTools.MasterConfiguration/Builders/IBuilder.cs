@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductivityTools.MasterConfiguration.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ProductivityTools.MasterConfiguration.Builders
 {
-    public interface IBuilder
+    interface IBuilder
     {
         string GetValue(string key);
 
-        Dictionary<string, string> GetAllValues();
+        List<ConfigItem> GetAllValues();
 
-        void InsertOrUpdate(string key, string value);
+        void InsertOrUpdate(ConfigItem config);
 
-        void InsertIfNotExists(string key, string value);
+        void InsertIfNotExists(ConfigItem config);
     }
 }
