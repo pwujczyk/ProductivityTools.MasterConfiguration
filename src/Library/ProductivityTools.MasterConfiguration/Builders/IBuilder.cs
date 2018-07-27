@@ -9,5 +9,11 @@ namespace ProductivityTools.MasterConfiguration.Builders
     public interface IBuilder
     {
         string GetValue(string key);
+
+        Dictionary<string, string> GetAllValues();
+
+        void InsertOrUpdate(string key, string value);
+
+        void InsertIfNotExists(string key, string value);
     }
 }

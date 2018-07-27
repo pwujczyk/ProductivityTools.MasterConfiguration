@@ -43,12 +43,18 @@
     <Compile Include="Builders\File.cs" />
     <Compile Include="Builders\IBuilder.cs" />
     <Compile Include="Builders\IFile.cs" />
-    <Compile Include="ConfigurationDirector.cs" />
+    <Compile Include="Builders\SqlServer.cs" />
+    <Compile Include="Directors\BaseDirector.cs" />
+    <Compile Include="Directors\ConfigurationDirector.cs" />
     <Compile Include="Exceptions\KeyDeclaredMoreThanOne.cs" />
     <Compile Include="Exceptions\KeyNotExists.cs" />
     <Compile Include="MConfiguration.cs" />
+    <Compile Include="Directors\MigrationDirector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SourceType.cs" />
+    <Compile Include="SQL\SQLAccess.cs" />
+    <Compile Include="Tools.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

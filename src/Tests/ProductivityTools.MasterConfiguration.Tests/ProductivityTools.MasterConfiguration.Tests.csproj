@@ -40,10 +40,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BaseTests.cs" />
-    <Compile Include="FileUnitTests.cs" />
+    <Compile Include="Tests\BaseTests.cs" />
+    <Compile Include="Managment\DatabaseSetup.cs" />
+    <Compile Include="Tests\MConfiguration\Configuration\FileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlUnitTests.cs" />
+    <Compile Include="Tests\DatabaseSetup\SQLDatabaseCreationTests.cs" />
+    <Compile Include="Tests\MConfiguration\Configuration\SqlTests.cs" />
+    <Compile Include="Tests\MConfiguration\Migration\FileToSqlTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -57,6 +60,8 @@
       <HintPath>..\..\..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\ProductivityTools.MasterConfiguration\ProductivityTools.MasterConfiguration.csproj">
@@ -64,6 +69,7 @@
       <Name>ProductivityTools.MasterConfiguration</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
