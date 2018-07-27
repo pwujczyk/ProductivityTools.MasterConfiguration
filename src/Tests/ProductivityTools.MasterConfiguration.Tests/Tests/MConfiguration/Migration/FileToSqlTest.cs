@@ -1,13 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProductivityTools.MasterConfiguration.Tests.SQL;
+using ProductivityTools.MasterConfiguration.Tests.Management;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductivityTools.MasterConfiguration.Tests.Tests.MConfiguration.Migration
-{
+namespace ProductivityTools.MasterConfiguration.Tests
+{ 
     [TestClass]
     public class FileToSqlTest: BaseTests
     {
@@ -57,7 +57,7 @@ namespace ProductivityTools.MasterConfiguration.Tests.Tests.MConfiguration.Migra
         }
 
         [TestMethod]
-        public void PErformOneTimeMigration()
+        public void PerformOneTimeMigration()
         {
             SetSQLConfigurationToMigrate(DefaultFileName);
             MasterConfiguration.MConfiguration.MigrateConfiguration(ovverideExistingOnes:true);

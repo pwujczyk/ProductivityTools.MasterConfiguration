@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProductivityTools.MasterConfiguration.Exceptions;
+using ProductivityTools.MasterConfiguration;
 
 namespace ProductivityTools.MasterConfiguration.Tests
 {
@@ -75,7 +76,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void GetFileValueFromDifferentConfigurationFileAnfFileMissing()
         {
             ClearDirectoryFromConfigs();
-            
+
             MConfiguration.SetConfigurationName("Pawel.xml");
             var x = MConfiguration.Configuration["Key1"];
             Assert.AreEqual("Value1", x, "Value form key");

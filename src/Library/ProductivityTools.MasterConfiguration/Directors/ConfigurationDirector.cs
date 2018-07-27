@@ -17,11 +17,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 
         public string GetValue(string key)
         {
-            Tools.LogToFile(ConfigurationFileName);
-            Tools.WriteFile("ConfigurationDirectorGedValue", ConfigurationFileName);
             File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
-            Tools.LogToFile($"SourceType {fileBuilder.SourceType}");
-            Tools.WriteFile("GetValueFirst", ConfigurationFileName);
             switch (fileBuilder.SourceType)
             {
                 case SourceType.File:
@@ -31,7 +27,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
                 case SourceType.HTTP:
                 case SourceType.NetPipes:
                 default:
-                    throw new Exception("wrong type");
+                    throw new Exception("Wrong type");
             }
         }
 

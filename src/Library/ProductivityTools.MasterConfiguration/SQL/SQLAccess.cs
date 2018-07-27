@@ -1,4 +1,5 @@
 ﻿using ProductivityTools.MasterConfiguration.Builders;
+using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,60 +11,45 @@ namespace ProductivityTools.MasterConfiguration.SQL
 {
     public class SQLAccess
     {
-        public Dictionary<string,string> GetAllValues()
-        {
-            //pw: todo
-            throw new Exception();
-        }
-
-        public string GetValue(string connectionString,string key,string schema, string tableName)
+        public string GetValue(string connectionString, string key, string schema, string tableName)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 string query = $"SELECT [Value] from [{schema}].[{tableName}] where [Key]= @keyId";
                 SqlCommand sqlComm2 = new SqlCommand(query, sqlConnection);
                 sqlComm2.Parameters.AddWithValue("@keyId", key);
-                try
+
+                sqlConnection.Open();
+                var returnValue = sqlComm2.ExecuteScalar();
+                if (returnValue != null)
                 {
-                    sqlConnection.Open();
-                    var returnValue = sqlComm2.ExecuteScalar();
-                    if (returnValue != null)
-                    {
-                        return returnValue.ToString();
-                    }
-                    else
-                    {
-                        throw new KeyNotFoundException(key);
-                    }
+                    return returnValue.ToString();
                 }
-                catch (Exception ex)
+                else
                 {
-                    //pw: add here
-                    throw ex;
+                    throw new KeyNotFoundException(key);
                 }
-                //pw: correctit
-                throw new Exception();
             }
         }
 
-        public void InsertValueIfNotExists(string connectionString, string schema, string table, string key, string value)
+        public void InsertValueIfNotExists(string connectionString, string schema, string table, ConfigItem config)
         {
-            string query = $"IF NOT EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{key}')" +
+            string query = $"IF NOT EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}')" +
               $"  BEGIN " +
-              $"      INSERT INTO [{schema}].[{table}]([Key],[Value]) VALUES('{key}','{value}')" +
+              $"      INSERT INTO [{schema}].[{table}]([Key],[Value],[Application]) VALUES('{config.Key}','{config.Value}','{config.Application}')" +
               $"  END";
             InvokeSqlQuery(connectionString, query);
         }
 
-        internal void InsertOrUpdateValue(string connectionString, string schema, string table,  string key, string value)
+        internal void InsertOrUpdateValue(string connectionString, string schema, string table, ConfigItem config)
         {
-            string query = $"IF EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{key}')" +
+            string query = $"IF EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}')" +
                 $"  BEGIN" +
-                $"      UPDATE [{schema}].[{table}] SET [Value]='{value}' WHERE [Key]='{key}'" +
+                $"      UPDATE [{schema}].[{table}] SET [Value]='{config.Value}', [Application]='{config.Application}' WHERE [Key]='{config.Key}'" +
                 $"  END" +
                 $" ELSE" +
                 $"  BEGIN " +
-                $"      INSERT INTO [{schema}].[{table}]([Key],[Value]) VALUES('{key}','{value}')" +
+                $"      INSERT INTO [{schema}].[{table}]([Key],[Value],[Application]) VALUES('{config.Key}','{config.Value}','{config.Application}')" +
                 $"  END";
             InvokeSqlQuery(connectionString, query);
         }
@@ -88,11 +74,11 @@ namespace ProductivityTools.MasterConfiguration.SQL
                                 (
                                     {tableName}Id INT IDENTITY(1,1) PRIMARY KEY,
                                     [Key] VARCHAR(30),
-                                    [Value] VARCHAR(200)
+                                    [Value] VARCHAR(200),
+                                    [Application] VARCHAR(40)
                                 )
                             END";
             InvokeSqlQuery(connectionString, query);
-
         }
 
         private void CreateSchemaIfNotExists(string connectionString, string schema)
@@ -102,29 +88,16 @@ namespace ProductivityTools.MasterConfiguration.SQL
                                 EXEC('CREATE SCHEMA {schema}')
                             END";
             InvokeSqlQuery(connectionString, query);
-    
         }
 
-
-
-        public void InvokeSqlQuery(string connectionString,string query)
+        public void InvokeSqlQuery(string connectionString, string query)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, sqlConnection);
-                try
-                {
-                    sqlConnection.Open();
-                    var returnValue = command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    //pw: add here
-                    throw ex;
-                }
-                //pw: correctit
+                sqlConnection.Open();
+                var returnValue = command.ExecuteNonQuery();
             }
-
         }
     }
 }

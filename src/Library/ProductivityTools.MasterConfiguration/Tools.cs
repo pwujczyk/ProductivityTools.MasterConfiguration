@@ -10,7 +10,7 @@ namespace ProductivityTools.MasterConfiguration
     {
         public static void LogToFile(string s)
         {
-            System.IO.File.AppendAllText($"d:\\log.txt", $"{DateTime.Now} {s}{Environment.NewLine}");
+            //System.IO.File.AppendAllText($"d:\\log.txt", $"{DateTime.Now} {s}{Environment.NewLine}");
         }
 
         public static void WriteFile(string id, string filePath)
