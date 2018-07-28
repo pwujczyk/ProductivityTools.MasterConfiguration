@@ -21,7 +21,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
                                     <Schema>{DatabaseSetup.Schema}</Schema>
                                     <Table>{DatabaseSetup.Table}</Table>
                                 </Source>
-                                <ApplicationConfiguration>
+                                <ApplicationConfiguration Name=""Application1"">
                                     <Key1>Value1</Key1>
                                     <Key2>Value2</Key2>
                                 </ApplicationConfiguration>
@@ -43,7 +43,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
                                     <Schema>{DatabaseSetup.Schema}</Schema>
                                     <Table>{DatabaseSetup.Table}</Table>
                                 </Source>
-                                <ApplicationConfiguration>
+                                <ApplicationConfiguration Name=""Application1"">
                                     <Key1>Value11</Key1>
                                     <Key2>Value22</Key2>
                                     <Key3>Value33</Key3>
