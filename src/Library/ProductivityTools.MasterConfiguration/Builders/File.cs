@@ -112,13 +112,17 @@ namespace ProductivityTools.MasterConfiguration.Builders
 
         public List<ConfigItem> GetAllValues()
         {
-            var valueXml = Xml.Descendants(ApplicationConfiguration).Descendants().ToList();
+            var applicationConfigurationNode = Xml.Element(ApplicationConfiguration);
+            var nameAttribute = applicationConfigurationNode.Attribute("Name");
+            string applicationName = nameAttribute?.Value;
+            var valueXml = applicationConfigurationNode.Descendants().ToList();
             List<ConfigItem> configItemsList = new List<ConfigItem>();
             foreach (var item in valueXml)
             {
                 var config = new ConfigItem();
                 config.Key = item.Name.LocalName;
                 config.Value = item.Value;
+                config.Application = applicationName;
                 configItemsList.Add(config);
             }
 

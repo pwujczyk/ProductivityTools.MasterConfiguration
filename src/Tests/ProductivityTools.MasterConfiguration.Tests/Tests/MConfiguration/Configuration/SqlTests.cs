@@ -73,7 +73,6 @@ namespace ProductivityTools.MasterConfiguration.Tests
             MConfiguration.ResetConfiguraiton();
             var x = MConfiguration.Configuration[configItem.Key];
             Assert.AreEqual(configItem.Value, x, "Example value from database");
-
         }
     }
 }
