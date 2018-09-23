@@ -11,13 +11,15 @@ namespace ProductivityTools.MasterConfiguration.SQL
 {
     public class SQLAccess
     {
-        public string GetValue(string connectionString, string key, string schema, string tableName)
+        public string GetValue(string connectionString, string key, string file, string application,  string schema, string tableName)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
-                string query = $"SELECT [Value] from [{schema}].[{tableName}] where [Key]= @keyId";
+                string query = $"SELECT [Value] from [{schema}].[{tableName}] where [Key]= @key AND [Application]=@application AND [File]=@file";
                 SqlCommand sqlComm2 = new SqlCommand(query, sqlConnection);
-                sqlComm2.Parameters.AddWithValue("@keyId", key);
+                sqlComm2.Parameters.AddWithValue("@key", key);
+                sqlComm2.Parameters.AddWithValue("@application", application);
+                sqlComm2.Parameters.AddWithValue("@file", file);
 
                 sqlConnection.Open();
                 var returnValue = sqlComm2.ExecuteScalar();
@@ -34,9 +36,9 @@ namespace ProductivityTools.MasterConfiguration.SQL
 
         public void InsertValueIfNotExists(string connectionString, string schema, string table, ConfigItem config)
         {
-            string query = $"IF NOT EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}')" +
+            string query = $"IF NOT EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}' AND [Application]='{config.Application}' AND [File]='{config.File}')" +
               $"  BEGIN " +
-              $"      INSERT INTO [{schema}].[{table}]([Key],[Value],[Application]) VALUES('{config.Key}','{config.Value}','{config.Application}')" +
+              $"      INSERT INTO [{schema}].[{table}]([Key],[Value],[Application],[File],[Category]) VALUES('{config.Key}','{config.Value}','{config.Application}','{config.File}','{config.Category}')" +
               $"  END";
             InvokeSqlQuery(connectionString, query);
         }
@@ -45,11 +47,11 @@ namespace ProductivityTools.MasterConfiguration.SQL
         {
             string query = $"IF EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}')" +
                 $"  BEGIN" +
-                $"      UPDATE [{schema}].[{table}] SET [Value]='{config.Value}', [Application]='{config.Application}' WHERE [Key]='{config.Key}'" +
+                $"      UPDATE [{schema}].[{table}] SET [Value]='{config.Value}', [Application]='{config.Application}', [File]='{config.File}', [Category]='{config.Category}' WHERE [Key]='{config.Key}'" +
                 $"  END" +
                 $" ELSE" +
                 $"  BEGIN " +
-                $"      INSERT INTO [{schema}].[{table}]([Key],[Value],[Application]) VALUES('{config.Key}','{config.Value}','{config.Application}')" +
+                $"      INSERT INTO [{schema}].[{table}]([Key],[Value],[Application],[File],[Category]) VALUES('{config.Key}','{config.Value}','{config.Application}','{config.File}','{config.Category}')" +
                 $"  END";
             InvokeSqlQuery(connectionString, query);
         }
@@ -72,10 +74,13 @@ namespace ProductivityTools.MasterConfiguration.SQL
                             BEGIN
                                 CREATE TABLE {schema}.{tableName}
                                 (
-                                    {tableName}Id INT IDENTITY(1,1) PRIMARY KEY,
-                                    [Key] VARCHAR(30),
-                                    [Value] VARCHAR(200),
-                                    [Application] VARCHAR(40)
+                                    {tableName}Id INT IDENTITY(1,1),
+                                    [Key] VARCHAR(100),
+                                    [Value] VARCHAR(1000),
+                                    [Application] VARCHAR(40),
+                                    [File] VARCHAR(100),
+                                    [Category] VARCHAR(100),
+                                    CONSTRAINT {tableName}PK PRIMARY KEY ([Key],[Application],[File])
                                 )
                             END";
             InvokeSqlQuery(connectionString, query);

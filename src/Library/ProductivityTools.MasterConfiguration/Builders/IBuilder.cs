@@ -9,7 +9,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
 {
     interface IBuilder
     {
-        string GetValue(string key);
+        string GetValue(string key, string application, string file);
 
         List<ConfigItem> GetAllValues();
 

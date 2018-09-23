@@ -24,9 +24,9 @@ namespace ProductivityTools.MasterConfiguration.Builders
             this.TableName = tableName;
         }
 
-        public string GetValue(string key)
+        public string GetValue(string key, string file, string application)
         {
-            var r = this.DataAccess.GetValue(ConnectionString, key, Schema, TableName);
+            var r = this.DataAccess.GetValue(ConnectionString, key, file, application, Schema, TableName);
             return r;
         }
 

@@ -10,7 +10,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 {
     class ConfigurationDirector : BaseDirector
     {
-        public ConfigurationDirector(string configurationFileName, bool currentDomain) : base(configurationFileName, currentDomain)
+        public ConfigurationDirector(string configurationFileName, string applicationName, bool currentDomain) : base(configurationFileName, applicationName, currentDomain)
         {
         }
 
@@ -23,7 +23,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
                 case SourceType.File:
                     return fileBuilder.GetValue(key);
                 case SourceType.SqlServer:
-                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key);
+                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key, ConfigurationFileName, ApplicationName);
                 case SourceType.HTTP:
                 case SourceType.NetPipes:
                 default:
