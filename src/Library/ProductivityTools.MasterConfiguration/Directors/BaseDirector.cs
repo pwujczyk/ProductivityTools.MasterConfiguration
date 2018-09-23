@@ -9,11 +9,13 @@ namespace ProductivityTools.MasterConfiguration.Directors
     public class BaseDirector
     {
         public string ConfigurationFileName;
+        public string ApplicationName;
         protected bool CurrentDomain;
 
-        public BaseDirector(string configurationFileName, bool currentDomain)
+        public BaseDirector(string configurationFileName, string applicationName, bool currentDomain)
         {
             this.ConfigurationFileName = configurationFileName;
+            this.ApplicationName = applicationName;
             this.CurrentDomain = currentDomain;
         }
     }

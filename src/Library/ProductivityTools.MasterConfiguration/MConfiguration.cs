@@ -10,34 +10,41 @@ namespace ProductivityTools.MasterConfiguration
 {
     public class MConfiguration
     {
-        private static string DefaultConfigurationFileName = "Configuration.xml";
+        //private static string DefaultConfigurationFileName = "Configuration.xml";
         private static string ConfigurationFileName;
+        private static string ApplicationName;
+
         private static bool CurrentDomain = false;
 
         static MConfiguration()
         {
-            ConfigurationFileName = DefaultConfigurationFileName;
+           // ConfigurationFileName = DefaultConfigurationFileName;
         }
 
         public static MConfiguration Configuration { get; } = new MConfiguration();
 
-        public static void ResetConfiguraiton()
-        {
-            ConfigurationFileName = DefaultConfigurationFileName;
-        }
+        //public static void ResetConfiguration()
+        //{
+        //    ConfigurationFileName = DefaultConfigurationFileName;
+        //}
 
         public string this[string key]
         {
             get
             {
-                var director = new ConfigurationDirector(ConfigurationFileName, CurrentDomain);
+                var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
                 return director.GetValue(key);
             }
         }
 
-        public static void SetConfigurationName(string configurationFileName)
+        public static void SetConfigurationFileName(string configurationFileName)
         {
             ConfigurationFileName = configurationFileName;
+        }
+
+        public static void SetApplicationName(string applicationName)
+        {
+            ApplicationName = applicationName;
         }
 
         public static void SetCurrentDomainPath(bool currentDomain)
@@ -47,7 +54,7 @@ namespace ProductivityTools.MasterConfiguration
 
         public static void MigrateConfiguration(bool ovverideExistingOnes)
         {
-            var director = new MigrationDirector(ConfigurationFileName, CurrentDomain);
+            var director = new MigrationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
             director.Migrate(ovverideExistingOnes);
         }
     }

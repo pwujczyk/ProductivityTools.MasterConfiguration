@@ -67,12 +67,35 @@ namespace ProductivityTools.MasterConfiguration.Tests
         [TestMethod]
         public void GetSqlExampleValue()
         {
+           // MConfiguration.ResetConfiguration();//previous test can change default file name
+
             SetSQLConfigurationDefaultFileName(DefaultFileName);
-            var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = "TestApplication" };
+            string applicationName = "TestApplication";
+            var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = applicationName, File = DefaultFileName };
             new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
-            MConfiguration.ResetConfiguraiton();
+
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetApplicationName(applicationName);
             var x = MConfiguration.Configuration[configItem.Key];
             Assert.AreEqual(configItem.Value, x, "Example value from database");
+        }
+
+        [TestMethod]
+        public void TwoApplicationsInSql()
+        {
+           // MConfiguration.ResetConfiguration();
+
+            string productionFileXml = "production.xml";
+            string testFileXml = "test.xml";
+            SetSQLConfigurationDefaultFileName("Production");
+            var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = "TestApplication1", File= productionFileXml };
+            new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
+
+            configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = "TestApplication1", File = testFileXml };
+            new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
+
+            var x = MConfiguration.Configuration[configItem.Key];
+
         }
     }
 }

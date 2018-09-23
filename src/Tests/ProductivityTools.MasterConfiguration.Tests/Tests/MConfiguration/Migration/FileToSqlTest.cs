@@ -22,8 +22,8 @@ namespace ProductivityTools.MasterConfiguration.Tests
                                     <Table>{DatabaseSetup.Table}</Table>
                                 </Source>
                                 <ApplicationConfiguration Name=""Application1"">
-                                    <Key1>Value1</Key1>
-                                    <Key2>Value2</Key2>
+                                    <Key1 Category=""Category1"">Value1</Key1>
+                                    <Key2 Category=""Category1"">Value2</Key2>
                                 </ApplicationConfiguration>
                             </Configuration>";
             System.IO.File.WriteAllText(resultDirectory, text);
@@ -44,9 +44,9 @@ namespace ProductivityTools.MasterConfiguration.Tests
                                     <Table>{DatabaseSetup.Table}</Table>
                                 </Source>
                                 <ApplicationConfiguration Name=""Application1"">
-                                    <Key1>Value11</Key1>
-                                    <Key2>Value22</Key2>
-                                    <Key3>Value33</Key3>
+                                    <Key1 Category=""Category1"">Value11</Key1>
+                                    <Key2 Category=""Category2"">Value22</Key2>
+                                    <Key3 Category=""Category3"">Value33</Key3>
                                 </ApplicationConfiguration>
                             </Configuration>";
             System.IO.File.WriteAllText(resultDirectory, text);

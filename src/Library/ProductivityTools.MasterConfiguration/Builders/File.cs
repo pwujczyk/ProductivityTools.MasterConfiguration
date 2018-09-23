@@ -13,8 +13,24 @@ namespace ProductivityTools.MasterConfiguration.Builders
     {
         private const string ApplicationConfiguration = "ApplicationConfiguration";
 
-        public string ConfigurationFile;
+        public string configurationFile;
         private bool CurrentDomain;
+
+        public string ConfigurationFile
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(configurationFile))
+                {
+                    throw new ConfigurationFileNotSet("Please setup configuration file using MConfiguration.SetConfigurationName(DefaultFileName);");
+                }
+                return configurationFile;
+            }
+            private set
+            {
+                this.configurationFile = value;
+            }
+        }
 
         public string ConnectionString
         {
@@ -41,6 +57,15 @@ namespace ProductivityTools.MasterConfiguration.Builders
             {
                 var tableName = SourceElement.Element("Table");
                 return tableName.Value;
+            }
+        }
+
+        public string FileName
+        {
+            get
+            {
+                var s = System.IO.Path.GetFileNameWithoutExtension(this.ConfigurationFile);
+                return s;
             }
         }
 
@@ -112,9 +137,10 @@ namespace ProductivityTools.MasterConfiguration.Builders
 
         public List<ConfigItem> GetAllValues()
         {
-            var applicationConfigurationNode = Xml.Element(ApplicationConfiguration);
+            var applicationConfigurationNode = Xml.Root.Element(ApplicationConfiguration);
             var nameAttribute = applicationConfigurationNode.Attribute("Name");
             string applicationName = nameAttribute?.Value;
+
             var valueXml = applicationConfigurationNode.Descendants().ToList();
             List<ConfigItem> configItemsList = new List<ConfigItem>();
             foreach (var item in valueXml)
@@ -123,6 +149,8 @@ namespace ProductivityTools.MasterConfiguration.Builders
                 config.Key = item.Name.LocalName;
                 config.Value = item.Value;
                 config.Application = applicationName;
+                config.File = this.FileName;
+                config.Category = item.Attribute("Category")?.Value;
                 configItemsList.Add(config);
             }
 

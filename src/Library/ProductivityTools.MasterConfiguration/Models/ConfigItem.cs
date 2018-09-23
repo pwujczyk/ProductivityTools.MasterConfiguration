@@ -11,5 +11,7 @@ namespace ProductivityTools.MasterConfiguration.Models
         public string Key;
         public string Value;
         public string Application;
+        public string File;
+        public string Category;
     }
 }
