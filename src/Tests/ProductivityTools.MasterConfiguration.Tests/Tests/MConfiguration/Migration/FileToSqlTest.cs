@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ProductivityTools.MasterConfiguration.SQL;
 using ProductivityTools.MasterConfiguration.Tests.Management;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,15 @@ namespace ProductivityTools.MasterConfiguration.Tests
     [TestClass]
     public class FileToSqlTest: BaseTests
     {
+
+        [ClassInitialize()]
+        public static void ClassInit(TestContext context)
+        {
+            var sql = new SQLAccess();
+            sql.CreateDatabaseIfNotExists(DatabaseSetup.DataSourceConnectionString, DatabaseSetup.DatbaseName);
+            sql.CreateConfigurationTableIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table);
+        }
+
         private void SetSQLConfigurationToMigrate(string name)
         {
             string resultDirectory = $"{AssemblyDirectory}\\{name}";
@@ -69,14 +79,18 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void PerformMigrationAndSecondOneWithOverrideExistingOnes()
         {
             SetSQLConfigurationToMigrate(DefaultFileName);
-            MasterConfiguration.MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
+
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetApplicationName(ApplicationName);
+            MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
+
             var value1result = MasterConfiguration.MConfiguration.Configuration["Key1"];
             Assert.AreEqual(value1result, "Value1");
             var value2result = MasterConfiguration.MConfiguration.Configuration["Key2"];
             Assert.AreEqual(value2result, "Value2");
 
             SetSQLConfigurationToMigrateSecondOne(DefaultFileName);
-            MasterConfiguration.MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
+            MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
 
             value1result = MasterConfiguration.MConfiguration.Configuration["Key1"];
             Assert.AreEqual(value1result, "Value11");
@@ -90,7 +104,11 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void PerformMigrationAndSecondOneWithAddNewOnes()
         {
             SetSQLConfigurationToMigrate(DefaultFileName);
-            MasterConfiguration.MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
+
+
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetApplicationName(ApplicationName);
+            MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
             var value1result = MasterConfiguration.MConfiguration.Configuration["Key1"];
             Assert.AreEqual(value1result, "Value1");
             var value2result = MasterConfiguration.MConfiguration.Configuration["Key2"];

@@ -13,6 +13,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
     public class BaseTests
     {
         protected string DefaultFileName = "Configuration.xml";
+        protected string ApplicationName = "Application1";
         protected static string AssemblyDirectory
         {
             get
