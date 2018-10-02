@@ -52,6 +52,8 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void GetNonExistsFileValue()
         {
             SetFileConfiguration(DefaultFileName);
+
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
             var x = MConfiguration.Configuration["NotExists"];
         }
 
@@ -60,6 +62,9 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void GetValueDeclaredTwice()
         {
             SetFileConfigurationWithTwoSameValues(DefaultFileName);
+
+
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
             var x = MConfiguration.Configuration["Key1"];
         }
 

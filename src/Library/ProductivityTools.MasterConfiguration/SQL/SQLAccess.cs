@@ -45,7 +45,7 @@ namespace ProductivityTools.MasterConfiguration.SQL
 
         internal void InsertOrUpdateValue(string connectionString, string schema, string table, ConfigItem config)
         {
-            string query = $"IF EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}')" +
+            string query = $"IF EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}' AND [Application]='{config.Application}' AND [File]='{config.File}')" +
                 $"  BEGIN" +
                 $"      UPDATE [{schema}].[{table}] SET [Value]='{config.Value}', [Application]='{config.Application}', [File]='{config.File}', [Category]='{config.Category}' WHERE [Key]='{config.Key}'" +
                 $"  END" +

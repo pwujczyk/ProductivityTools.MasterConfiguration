@@ -22,7 +22,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
             {
                 if (string.IsNullOrEmpty(configurationFile))
                 {
-                    throw new ConfigurationFileNotSet("Please setup configuration file using MConfiguration.SetConfigurationName(DefaultFileName);");
+                    throw new ConfigurationFileNotSet();
                 }
                 return configurationFile;
             }
@@ -60,14 +60,14 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
         }
 
-        public string FileName
-        {
-            get
-            {
-                var s = System.IO.Path.GetFileNameWithoutExtension(this.ConfigurationFile);
-                return s;
-            }
-        }
+        //public string FileName
+        //{
+        //    get
+        //    {
+        //        var s = System.IO.Path.GetFileNameWithoutExtension(this.ConfigurationFile);
+        //        return s;
+        //    }
+        //}
 
         public File(string configurationFile, bool currentDomain)
         {
@@ -149,7 +149,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
                 config.Key = item.Name.LocalName;
                 config.Value = item.Value;
                 config.Application = applicationName;
-                config.File = this.FileName;
+                config.File = this.ConfigurationFile;
                 config.Category = item.Attribute("Category")?.Value;
                 configItemsList.Add(config);
             }

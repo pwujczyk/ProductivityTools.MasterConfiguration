@@ -1,4 +1,5 @@
-﻿using ProductivityTools.MasterConfiguration.Models;
+﻿using ProductivityTools.MasterConfiguration.Exceptions;
+using ProductivityTools.MasterConfiguration.Models;
 using ProductivityTools.MasterConfiguration.SQL;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,10 @@ namespace ProductivityTools.MasterConfiguration.Builders
 
         public string GetValue(string key, string file, string application)
         {
+            if (string.IsNullOrEmpty(application))
+            {
+                throw new ConfigurationFileNotSet();
+            }
             var r = this.DataAccess.GetValue(ConnectionString, key, file, application, Schema, TableName);
             return r;
         }
