@@ -70,8 +70,10 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void PerformOneTimeMigration()
         {
             SetSQLConfigurationToMigrate(DefaultFileName);
-            MasterConfiguration.MConfiguration.MigrateConfiguration(ovverideExistingOnes:true);
-            var result=MasterConfiguration.MConfiguration.Configuration["Key1"];
+
+            MConfiguration.SetApplicationName(ApplicationName);
+            MConfiguration.MigrateConfiguration(ovverideExistingOnes:true);
+            var result=MConfiguration.Configuration["Key1"];
             Assert.AreEqual(result, "Value1");
         }
 
@@ -124,5 +126,8 @@ namespace ProductivityTools.MasterConfiguration.Tests
             var value3result = MasterConfiguration.MConfiguration.Configuration["Key3"];
             Assert.AreEqual(value3result, "Value33");
         }
+
+
+
     }
 }

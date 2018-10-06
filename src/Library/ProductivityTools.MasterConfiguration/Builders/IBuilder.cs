@@ -11,7 +11,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
     {
         string GetValue(string key, string application, string file);
 
-        List<ConfigItem> GetAllValues();
+        IList<ConfigItem> GetAllValues();
 
         void InsertOrUpdate(ConfigItem config);
 

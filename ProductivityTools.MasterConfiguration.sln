@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductivityTools.MasterCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductivityTools.MasterConfiguration", "src\Library\ProductivityTools.MasterConfiguration\ProductivityTools.MasterConfiguration.csproj", "{108CEFCD-3617-4C60-BDF3-D1F77636FB62}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{466CFAB1-4427-4954-AD6A-2C08A6467B00}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NugetMetadata.nuspec = .nuget\NugetMetadata.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
