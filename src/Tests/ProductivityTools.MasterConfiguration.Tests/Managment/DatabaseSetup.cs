@@ -43,5 +43,13 @@ namespace ProductivityTools.MasterConfiguration.Tests.Management
                 }
             }
         }
+
+        internal void Truncate()
+        {
+            SQLAccess s = new SQLAccess();
+            String sqlCommandText = $@"
+                TRUNCATE TABLE [{Schema}].[{Table}]";
+            s.InvokeSqlQuery(ConnectionString, sqlCommandText);
+        }
     }
 }

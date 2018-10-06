@@ -34,6 +34,31 @@ namespace ProductivityTools.MasterConfiguration.SQL
             }
         }
 
+        public IList<ConfigItem> GetAllValues(string connectionString, string schema, string tableName)
+        {
+            IList<ConfigItem> result = new List<ConfigItem>();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                string query = $"SELECT [Key],[Value],[Application],[File],[Category] from [{schema}].[{tableName}]";
+                SqlCommand sqlComm2 = new SqlCommand(query, sqlConnection);
+      
+                sqlConnection.Open();
+                SqlDataReader reader = sqlComm2.ExecuteReader();
+                while (reader.Read())
+                {
+                    result.Add(new ConfigItem
+                    {
+                        Application = reader["Application"].ToString(),
+                        Category = reader["Category"].ToString(),
+                        File = reader["File"].ToString(),
+                        Key = reader["Key"].ToString(),
+                        Value = reader["Value"].ToString()
+                    });
+                }
+            }
+            return result;
+        }
+
         public void InsertValueIfNotExists(string connectionString, string schema, string table, ConfigItem config)
         {
             string query = $"IF NOT EXISTS(SELECT [Key] FROM [{schema}].[{table}] WHERE [Key]='{config.Key}' AND [Application]='{config.Application}' AND [File]='{config.File}')" +

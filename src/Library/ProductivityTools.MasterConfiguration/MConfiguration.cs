@@ -1,4 +1,5 @@
 ﻿using ProductivityTools.MasterConfiguration.Directors;
+using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +11,17 @@ namespace ProductivityTools.MasterConfiguration
 {
     public class MConfiguration
     {
-        //private static string DefaultConfigurationFileName = "Configuration.xml";
         private static string ConfigurationFileName;
         private static string ApplicationName;
+        private static string EnvironmentVariableName;
 
         private static bool CurrentDomain = false;
 
         static MConfiguration()
         {
-           // ConfigurationFileName = DefaultConfigurationFileName;
         }
 
         public static MConfiguration Configuration { get; } = new MConfiguration();
-
-        //public static void ResetConfiguration()
-        //{
-        //    ConfigurationFileName = DefaultConfigurationFileName;
-        //}
 
         public string this[string key]
         {
@@ -47,6 +42,11 @@ namespace ProductivityTools.MasterConfiguration
             ApplicationName = applicationName;
         }
 
+        public static void SetEnvironmentVariableName(string environmentVariableName)
+        {
+            EnvironmentVariableName = environmentVariableName;
+        }
+
         public static void SetCurrentDomainPath(bool currentDomain)
         {
             CurrentDomain = currentDomain;
@@ -56,6 +56,13 @@ namespace ProductivityTools.MasterConfiguration
         {
             var director = new MigrationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
             director.Migrate(ovverideExistingOnes);
+        }
+
+        public static IList<ConfigItem> GetValues(string category=null, string application=null, string file=null, string value=null, string key=null)
+        {
+            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
+            var result= director.GetAllValues(category,application,file,value,key);
+            return result;
         }
     }
 }

@@ -27,7 +27,13 @@ namespace ProductivityTools.MasterConfiguration.Tests
         [ClassCleanup()]
         public static void AssemblyCleanup()
         {
-            //    new DatabaseSetup().DropDatabase();
+            new DatabaseSetup().DropDatabase();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            new DatabaseSetup().Truncate();
         }
 
         private void SetSQLConfigurationDefaultFileName(string name)
@@ -68,8 +74,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
         public void GetSqlExampleValue()
         {
            // MConfiguration.ResetConfiguration();//previous test can change default file name
-
-            SetSQLConfigurationDefaultFileName(DefaultFileName);
+           // SetSQLConfigurationDefaultFileName(DefaultFileName);
             string applicationName = "TestApplication";
             var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = applicationName, File = DefaultFileName };
             new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
@@ -83,19 +88,41 @@ namespace ProductivityTools.MasterConfiguration.Tests
         [TestMethod]
         public void TwoApplicationsInSql()
         {
-           // MConfiguration.ResetConfiguration();
 
             string productionFileXml = "production.xml";
             string testFileXml = "test.xml";
-            SetSQLConfigurationDefaultFileName("Production");
-            var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = "TestApplication1", File= productionFileXml };
+            string applicationName = "TestApplication";
+            SetSQLConfigurationDefaultFileName(productionFileXml);
+            var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = applicationName, File= productionFileXml };
             new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
 
             configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = "TestApplication1", File = testFileXml };
             new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
-
+            
+            MConfiguration.SetConfigurationFileName(productionFileXml);
+            MConfiguration.SetApplicationName(applicationName);
             var x = MConfiguration.Configuration[configItem.Key];
+        }
 
+        [TestMethod]
+        public void GetValues()
+        {
+            string applicationName = "TestApplication";
+            var configItem = new ConfigItem() { Key = "examplekey123", Value = "exampleValue123", Application = applicationName, File = DefaultFileName, Category="Category1" };
+            new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
+
+            configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue124", Application = applicationName, File = DefaultFileName, Category = "Category2" };
+            new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
+
+
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetApplicationName(applicationName);
+
+            var result = MConfiguration.GetValues();
+            Assert.AreEqual(result.Count, 2);
+
+            result = MConfiguration.GetValues(category: "Category2");
+            Assert.AreEqual(result.Single().Value, "exampleValue124");
         }
     }
 }

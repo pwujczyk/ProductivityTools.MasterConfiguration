@@ -16,7 +16,6 @@ namespace ProductivityTools.MasterConfiguration.Builders
         private readonly string Schema;
         private readonly string TableName;
 
-
         public SqlServer(string connectionString, string schema, string tableName)
         {
             this.DataAccess = new SQLAccess();
@@ -29,7 +28,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             if (string.IsNullOrEmpty(application))
             {
-                throw new ConfigurationFileNotSet();
+                throw new ConfigurationFileNameNotSet();
             }
             var r = this.DataAccess.GetValue(ConnectionString, key, file, application, Schema, TableName);
             return r;
@@ -44,9 +43,10 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             this.DataAccess.InsertValueIfNotExists(ConnectionString, Schema, TableName, config);
         }
-        List<ConfigItem> IBuilder.GetAllValues()
+        IList<ConfigItem> IBuilder.GetAllValues()
         {
-            throw new NotImplementedException();
+            var result=this.DataAccess.GetAllValues(ConnectionString, Schema, TableName);
+            return result;
         }
     }
 }

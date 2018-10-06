@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace ProductivityTools.MasterConfiguration.Builders
 {
-    class File
+    class File: IBuilder
     {
         private const string ApplicationConfiguration = "ApplicationConfiguration";
 
@@ -22,7 +22,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
             {
                 if (string.IsNullOrEmpty(configurationFile))
                 {
-                    throw new ConfigurationFileNotSet();
+                    throw new ConfigurationFileNameNotSet();
                 }
                 return configurationFile;
             }
@@ -59,15 +59,6 @@ namespace ProductivityTools.MasterConfiguration.Builders
                 return tableName.Value;
             }
         }
-
-        //public string FileName
-        //{
-        //    get
-        //    {
-        //        var s = System.IO.Path.GetFileNameWithoutExtension(this.ConfigurationFile);
-        //        return s;
-        //    }
-        //}
 
         public File(string configurationFile, bool currentDomain)
         {
@@ -135,7 +126,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
         }
 
-        public List<ConfigItem> GetAllValues()
+        public IList<ConfigItem> GetAllValues()
         {
             var applicationConfigurationNode = Xml.Root.Element(ApplicationConfiguration);
             var nameAttribute = applicationConfigurationNode.Attribute("Name");
@@ -170,6 +161,21 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
             var query = valueXml.Single();
             return query.Value;
+        }
+
+        public string GetValue(string key, string application, string file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InsertOrUpdate(ConfigItem config)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InsertIfNotExists(ConfigItem config)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ProductivityTools.MasterConfiguration.Builders;
+using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,39 @@ namespace ProductivityTools.MasterConfiguration.Directors
         {
         }
 
+        public IList<ConfigItem> GetAllValues(string category, string application, string file, string value, string key)
+        {
+            IEnumerable<ConfigItem> result = GetBuilder().GetAllValues();
+            Action<string, Func<ConfigItem, bool>> a = (filter, action) =>
+               {
+                   if (!string.IsNullOrEmpty(filter))
+                   {
+                       result = result.Where(action);
+                   }
+               };
+            a(category, x => x.Category==category);
+            a(application, x => x.Application== application);
+            a(file, x => x.File== file);
+            a(value, x => x.Value== value);
+            a(key, x => x.Key == key);
+            
+            return result.ToList();
+        }
+
+        private IBuilder GetBuilder()
+        {
+            File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
+
+            switch (fileBuilder.SourceType)
+            {
+                case SourceType.File:
+                    return fileBuilder;
+                case SourceType.SqlServer:
+                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table);
+                default:
+                    throw new Exception("Wrong type");
+            }
+        }
 
         public string GetValue(string key)
         {
@@ -24,8 +58,6 @@ namespace ProductivityTools.MasterConfiguration.Directors
                     return fileBuilder.GetValue(key);
                 case SourceType.SqlServer:
                     return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key, ConfigurationFileName, ApplicationName);
-                case SourceType.HTTP:
-                case SourceType.NetPipes:
                 default:
                     throw new Exception("Wrong type");
             }
