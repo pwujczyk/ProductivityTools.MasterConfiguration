@@ -38,10 +38,10 @@ namespace ProductivityTools.MasterConfiguration.Tests
             Tools.LogToFile("SetFile");
             string text = @"<Configuration>
                                 <Source Type=""File""></Source>
-                                <ApplicationConfiguration>
-                                    <Key1>Value1</Key1>
-                                    <Key1>Value1</Key1>
-                                    <Key2>Value2</Key2>
+                                <ApplicationConfiguration Name=""Application1"">
+                                    <Key1 Category=""Category1"">Value11</Key1>
+                                    <Key1 Category=""Category2"">Value11</Key1>
+                                    <Key3 Category=""Category3"">Value33</Key3>
                                 </ApplicationConfiguration>
                             </Configuration>";
             System.IO.File.WriteAllText($"{AssemblyDirectory}\\{name}", text);
