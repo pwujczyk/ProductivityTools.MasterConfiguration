@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Builders\File.cs" />
     <Compile Include="Builders\IBuilder.cs" />
+    <Compile Include="Builders\IMigrationBuilder.cs" />
     <Compile Include="Builders\SqlServer.cs" />
     <Compile Include="Exceptions\ApplicationNameNotSet.cs" />
     <Compile Include="Exceptions\ConfigurationFileNotSet.cs" />

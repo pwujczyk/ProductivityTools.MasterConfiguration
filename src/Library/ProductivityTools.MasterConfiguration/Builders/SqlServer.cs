@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProductivityTools.MasterConfiguration.Builders
 {
-    class SqlServer : IBuilder
+    class SqlServer : IBuilder, IMigrationBuilder
     {
         private readonly SQLAccess DataAccess;
         private readonly string ConnectionString;
@@ -32,6 +32,11 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
             var r = this.DataAccess.GetValue(ConnectionString, key, file, application, Schema, TableName);
             return r;
+        }
+
+        public void SetValue(string key, string value, string application, string file, string category)
+        {
+
         }
 
         public void InsertOrUpdate(ConfigItem config)

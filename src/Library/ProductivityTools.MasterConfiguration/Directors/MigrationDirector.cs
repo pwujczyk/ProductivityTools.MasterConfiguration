@@ -17,7 +17,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
             File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
             var fileValues = fileBuilder.GetAllValues();
 
-            IBuilder targetBuilder = new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table);
+            IMigrationBuilder targetBuilder = new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table);
 
             Action<ConfigItem> ActionToPerform;
             if (ovverideExistingOnes)

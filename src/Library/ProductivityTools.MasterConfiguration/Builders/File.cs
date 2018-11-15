@@ -163,6 +163,11 @@ namespace ProductivityTools.MasterConfiguration.Builders
             return query.Value;
         }
 
+        public void SetValue(string key, string value, string application, string file, string category)
+        {
+
+        }
+
         public string GetValue(string key, string application, string file)
         {
             throw new NotImplementedException();

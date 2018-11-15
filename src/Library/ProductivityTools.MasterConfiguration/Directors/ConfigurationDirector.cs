@@ -63,5 +63,19 @@ namespace ProductivityTools.MasterConfiguration.Directors
             }
         }
 
+        public string SetValue(string key,string value)
+        {
+            File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
+            switch (fileBuilder.SourceType)
+            {
+                case SourceType.File:
+                    return fileBuilder.GetValue(key);
+                case SourceType.SqlServer:
+                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key, ConfigurationFileName, ApplicationName);
+                default:
+                    throw new Exception("Wrong type");
+            }
+        }
+
     }
 }
