@@ -1,4 +1,5 @@
 ﻿using ProductivityTools.MasterConfiguration.Builders;
+using ProductivityTools.MasterConfiguration.Exceptions;
 using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace ProductivityTools.MasterConfiguration.SQL
                 }
                 else
                 {
-                    throw new KeyNotFoundException(key);
+                    throw new KeyNotExists(key);
                 }
             }
         }

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace ProductivityTools.MasterConfiguration.Builders
 {
-    class File: IBuilder
+    class File : IBuilder
     {
         private const string ApplicationConfiguration = "ApplicationConfiguration";
 
@@ -84,7 +84,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
         }
 
-        private string GetConfigurationPath
+        private string ConfigurationPath
         {
             get
             {
@@ -92,13 +92,19 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
         }
 
+        XDocument xml;
         private XDocument Xml
         {
             get
             {
 
-                var xml = XDocument.Load(GetConfigurationPath);
-                return xml;
+                this.xml = XDocument.Load(ConfigurationPath);
+                return this.xml;
+            }
+            set
+            {
+
+                this.xml.Save(ConfigurationPath);
             }
         }
 
@@ -163,22 +169,60 @@ namespace ProductivityTools.MasterConfiguration.Builders
             return query.Value;
         }
 
+        private void SaveXml()
+        {
+            Xml.Save(ConfigurationPath);
+        }
+
+        private const string ApplicationKey = "Application";
+
         public void SetValue(string key, string value, string application, string file, string category)
         {
+            var xxx = Xml.Root.Descendants();
+            var applicationNode = from app in Xml.Descendants(ApplicationConfiguration)
+                                  where app.Attribute("Name").Value == application
+                                  select app;
+            if (applicationNode.Any())
+            {
 
+            }
+            else
+            {
+                var document = Xml;
+                document.Element("Configuration").Element(ApplicationConfiguration).Add
+                 (
+                     new XElement
+                         (
+                             key, value, new XAttribute("Category", category)
+                         )
+                  );
+
+                //var xdxx = Xml.Descendants("Configuration").Single().Descendants(ApplicationConfiguration).Single();
+                ////.Element(ApplicationKey)
+                //xdxx.Add(new XElement("Key3"));
+                Xml = document;
+                SaveXml();
+            }
+
+
+
+            //var valueXml = applicationConfigurationNode.Descendants().ToList();
+            //List<ConfigItem> configItemsList = new List<ConfigItem>();
+            //foreach (var item in valueXml)
+            //{
+            //    var config = new ConfigItem();
+            //    config.Key = item.Name.LocalName;
+            //    config.Value = item.Value;
+            //    config.Application = applicationName;
+            //    config.File = this.ConfigurationFile;
+            //    config.Category = item.Attribute("Category")?.Value;
+            //    configItemsList.Add(config);
+            //}
+
+            //return configItemsList;
         }
 
         public string GetValue(string key, string application, string file)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void InsertOrUpdate(ConfigItem config)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void InsertIfNotExists(ConfigItem config)
         {
             throw new NotImplementedException();
         }
