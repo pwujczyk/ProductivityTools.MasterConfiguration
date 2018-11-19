@@ -2,11 +2,11 @@
 <package >
   <metadata>
     <id>ProductivityTools.MasterConfiguration</id>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <authors>Pawel Wujczyk</authors>
     <owners>Pawel Wujczyk</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Configuration which allows to read config from xml or sql</description>
+    <description>Configuration which allows to read and write xml or sql config</description>
     <tags>Configuration XML SQL</tags>
     <dependencies>
     </dependencies>
