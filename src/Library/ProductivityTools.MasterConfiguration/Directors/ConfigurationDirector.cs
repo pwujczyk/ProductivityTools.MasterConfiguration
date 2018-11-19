@@ -63,15 +63,17 @@ namespace ProductivityTools.MasterConfiguration.Directors
             }
         }
 
-        public string SetValue(string key,string value)
+        public void SetValue(string key, string value, string application, string file, string category)
         {
             File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
             switch (fileBuilder.SourceType)
             {
                 case SourceType.File:
-                    return fileBuilder.GetValue(key);
+                    fileBuilder.SetValue(key, value, application, file, category);
+                    return;
                 case SourceType.SqlServer:
-                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key, ConfigurationFileName, ApplicationName);
+                    new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).SetValue(key, value, application, file, category);
+                    return;
                 default:
                     throw new Exception("Wrong type");
             }

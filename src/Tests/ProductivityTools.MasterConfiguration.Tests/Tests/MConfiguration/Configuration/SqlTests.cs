@@ -61,6 +61,8 @@ namespace ProductivityTools.MasterConfiguration.Tests
             try
             {
                 SetSQLConfigurationDefaultFileName(DefaultFileName);
+                MConfiguration.SetConfigurationFileName(DefaultFileName);
+                MConfiguration.SetApplicationName(ApplicationName);
                 var x = MConfiguration.Configuration["randomnotexistskey"];
             }
             catch (Exception ex)

@@ -113,9 +113,16 @@ namespace ProductivityTools.MasterConfiguration.Tests
             Assert.AreEqual("Value1", x, "Value form key");
         }
 
-        public void GetAllValues()
+        [TestMethod]
+        public void SetValueTest()
         {
+            SetFileConfiguration(DefaultFileName);
 
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetValue("KeySetValue1", "Value1");
+
+            var x = MConfiguration.Configuration["KeySetValue1"];
+            Assert.AreEqual("Value1", x);
         }
     }
 }

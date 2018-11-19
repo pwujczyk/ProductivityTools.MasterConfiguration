@@ -28,15 +28,27 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             if (string.IsNullOrEmpty(application))
             {
+                throw new ApplicationNameNotSet();
+            }
+
+            if (string.IsNullOrEmpty(file))
+            {
                 throw new ConfigurationFileNameNotSet();
             }
+
             var r = this.DataAccess.GetValue(ConnectionString, key, file, application, Schema, TableName);
             return r;
         }
 
         public void SetValue(string key, string value, string application, string file, string category)
         {
-
+            ConfigItem config = new ConfigItem();
+            config.Application = application;
+            config.Category = category;
+            config.File = file;
+            config.Key = key;
+            config.Value = value;
+            this.DataAccess.InsertOrUpdateValue(ConnectionString, Schema, TableName, config);
         }
 
         public void InsertOrUpdate(ConfigItem config)

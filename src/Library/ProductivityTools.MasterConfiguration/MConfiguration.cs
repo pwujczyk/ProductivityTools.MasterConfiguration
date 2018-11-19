@@ -64,5 +64,19 @@ namespace ProductivityTools.MasterConfiguration
             var result= director.GetAllValues(category,application,file,value,key);
             return result;
         }
+
+        /// <summary>
+        /// It adds or updates value in the configuration source
+        /// </summary>
+        /// <param name="key">Key which together with file and application identify item</param>
+        /// <param name="value">Value</param>
+        /// <param name="application">Application which should use given item, if not provided "Common" value will be used</param>
+        /// <param name="file">File for given application it allows to create different configurations for different environment for the same applicatin. If not provided "Common" value will be used</param>
+        /// <param name="category">Category for item, it is just for organisation purpose. If not provided "Common" value will be used</param>
+        public static void SetValue(string key, string value, string application="Common", string file="Common", string category="Common")
+        {
+            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
+            director.SetValue(key, value, application, file, category);
+        }
     }
 }
