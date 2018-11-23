@@ -46,6 +46,7 @@
     <Compile Include="Builders\SqlServer.cs" />
     <Compile Include="Exceptions\ApplicationNameNotSet.cs" />
     <Compile Include="Exceptions\ConfigurationFileNotSet.cs" />
+    <Compile Include="Extensions\ConfigurationXmlExtensions.cs" />
     <Compile Include="Models\ConfigItem.cs" />
     <Compile Include="Directors\BaseDirector.cs" />
     <Compile Include="Directors\ConfigurationDirector.cs" />
