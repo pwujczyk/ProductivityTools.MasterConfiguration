@@ -25,12 +25,12 @@ namespace ProductivityTools.MasterConfiguration.Directors
                        result = result.Where(action);
                    }
                };
-            a(category, x => x.Category==category);
-            a(application, x => x.Application== application);
-            a(file, x => x.File== file);
-            a(value, x => x.Value== value);
+            a(category, x => x.Category == category);
+            a(application, x => x.Application == application);
+            a(file, x => x.File == file);
+            a(value, x => x.Value == value);
             a(key, x => x.Key == key);
-            
+
             return result.ToList();
         }
 
@@ -49,15 +49,15 @@ namespace ProductivityTools.MasterConfiguration.Directors
             }
         }
 
-        public string GetValue(string key)
+        public string GetValue(string key, string applicationName)
         {
             File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
             switch (fileBuilder.SourceType)
             {
                 case SourceType.File:
-                    return fileBuilder.GetValue(key);
+                    return fileBuilder.GetValue(key, applicationName);
                 case SourceType.SqlServer:
-                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key, ConfigurationFileName, ApplicationName);
+                    return new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table).GetValue(key, ConfigurationFileName, applicationName);
                 default:
                     throw new Exception("Wrong type");
             }

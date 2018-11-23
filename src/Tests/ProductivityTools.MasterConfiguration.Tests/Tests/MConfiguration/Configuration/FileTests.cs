@@ -11,6 +11,8 @@ namespace ProductivityTools.MasterConfiguration.Tests
     [TestClass]
     public class FileUnitTests : BaseTests
     {
+        private const string ApplicationName = "ApplicationName";
+
         private void ClearDirectoryFromConfigs()
         {
             var files = Directory.GetFiles(AssemblyDirectory);
@@ -19,6 +21,8 @@ namespace ProductivityTools.MasterConfiguration.Tests
                 File.Delete(file);
             }
         }
+
+
 
         private void SetFileConfiguration(string name)
         {
@@ -38,7 +42,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
             Tools.LogToFile("SetFile");
             string text = @"<Configuration>
                                 <Source Type=""File""></Source>
-                                <ApplicationConfiguration Name=""Application1"">
+                                <ApplicationConfiguration Name=""ApplicationName"">
                                     <Key1 Category=""Category1"">Value11</Key1>
                                     <Key1 Category=""Category2"">Value11</Key1>
                                     <Key3 Category=""Category3"">Value33</Key3>
@@ -53,6 +57,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
         {
             SetFileConfiguration(DefaultFileName);
 
+            MConfiguration.SetApplicationName(ApplicationName);
             MConfiguration.SetConfigurationFileName(DefaultFileName);
             var x = MConfiguration.Configuration["NotExists"];
         }
@@ -63,6 +68,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
         {
             SetFileConfigurationWithTwoSameValues(DefaultFileName);
 
+            MConfiguration.SetApplicationName(ApplicationName);
             MConfiguration.SetConfigurationFileName(DefaultFileName);
             var x = MConfiguration.Configuration["Key1"];
         }
@@ -73,6 +79,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
             SetFileConfiguration(DefaultFileName);
 
             MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetApplicationName(ApplicationName);
             var x = MConfiguration.Configuration["Key1"];
             Assert.AreEqual("Value1", x, "Value form key");
         }
@@ -118,8 +125,36 @@ namespace ProductivityTools.MasterConfiguration.Tests
         {
             SetFileConfiguration(DefaultFileName);
 
+            MConfiguration.SetApplicationName(ApplicationName);
             MConfiguration.SetConfigurationFileName(DefaultFileName);
             MConfiguration.SetValue("KeySetValue1", "Value1");
+
+            var x = MConfiguration.Configuration["KeySetValue1"];
+            Assert.AreEqual("Value1", x);
+        }
+
+        [TestMethod]
+        public void SetValueUpdateTest()
+        {
+            SetFileConfiguration(DefaultFileName);
+
+            MConfiguration.SetApplicationName(ApplicationName);
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetValue("Key1", "XXX");
+
+            var x = MConfiguration.Configuration["Key1"];
+            Assert.AreEqual("XXX", x);
+        }
+
+
+        [TestMethod]
+        public void SetValueTestForNotExistsApplication()
+        {
+            SetFileConfiguration(DefaultFileName);
+
+            MConfiguration.SetApplicationName("NotExistsApplication");
+            MConfiguration.SetConfigurationFileName(DefaultFileName);
+            MConfiguration.SetValue("KeySetValue1", "Value1","NotExistsApplication");
 
             var x = MConfiguration.Configuration["KeySetValue1"];
             Assert.AreEqual("Value1", x);

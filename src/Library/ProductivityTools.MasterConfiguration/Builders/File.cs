@@ -11,7 +11,6 @@ namespace ProductivityTools.MasterConfiguration.Builders
 {
     class File : IBuilder
     {
-        private const string ApplicationConfiguration = "ApplicationConfiguration";
 
         public string configurationFile;
         private bool CurrentDomain;
@@ -154,9 +153,11 @@ namespace ProductivityTools.MasterConfiguration.Builders
             return configItemsList;
         }
 
-        public string GetValue(string key)
+        public string GetValue(string key, string application)
         {
-            var valueXml = Xml.Descendants(ApplicationConfiguration).Descendants(key).ToList();
+            var valueXml = Xml.Descendants(ApplicationConfiguration)
+                .Single(x => x.Attribute("Name").Value == application)
+                .Descendants(key).ToList();
             if (valueXml.Any() == false)
             {
                 throw new KeyNotExists(key);
@@ -174,52 +175,66 @@ namespace ProductivityTools.MasterConfiguration.Builders
             Xml.Save(ConfigurationPath);
         }
 
+
+
         private const string ApplicationKey = "Application";
+        private const string ConfigurationKey = "Configuration";
+        private const string ApplicationConfiguration = "ApplicationConfiguration";
 
-        public void SetValue(string key, string value, string application, string file, string category)
+        public void ValidateApplicationConfigurationNode(string applicationName)
         {
-            var xxx = Xml.Root.Descendants();
-            var applicationNode = from app in Xml.Descendants(ApplicationConfiguration)
-                                  where app.Attribute("Name").Value == application
-                                  select app;
-            if (applicationNode.Any())
+            XDocument document = Xml;
+            bool exist = document.Element(ConfigurationKey)
+                .Descendants(ApplicationConfiguration)
+                .Any(x => x.Attribute("Name").Value == applicationName);
+            if (exist == false)
             {
-
+                document.Element(ConfigurationKey).Add
+                    (
+                      new XElement
+                         (
+                             ApplicationConfiguration, new XAttribute("Name", applicationName)
+                         )
+                    );
+                this.Xml = document;
+                SaveXml();
             }
-            else
+        }
+
+        public void ValidateKeyNode(string applicationName, string key, string value, string category)
+        {
+            var document = Xml;
+            var applicationNode = document.Element(ConfigurationKey)
+                .Elements(ApplicationConfiguration).Single(x => x.Attribute("Name").Value == applicationName)
+                .Element(key);
+            if (applicationNode == null)
             {
-                var document = Xml;
-                document.Element("Configuration").Element(ApplicationConfiguration).Add
-                 (
+                document.Element(ConfigurationKey)
+                .Elements(ApplicationConfiguration)
+                .Single(x => x.Attribute("Name").Value == applicationName)
+                .Add
+                (
                      new XElement
                          (
                              key, value, new XAttribute("Category", category)
                          )
                   );
-
-                //var xdxx = Xml.Descendants("Configuration").Single().Descendants(ApplicationConfiguration).Single();
-                ////.Element(ApplicationKey)
-                //xdxx.Add(new XElement("Key3"));
-                Xml = document;
-                SaveXml();
             }
+            else
+            {
+                applicationNode.Value = value;
+
+            }
+            Xml = document;
+            SaveXml();
+        }
 
 
 
-            //var valueXml = applicationConfigurationNode.Descendants().ToList();
-            //List<ConfigItem> configItemsList = new List<ConfigItem>();
-            //foreach (var item in valueXml)
-            //{
-            //    var config = new ConfigItem();
-            //    config.Key = item.Name.LocalName;
-            //    config.Value = item.Value;
-            //    config.Application = applicationName;
-            //    config.File = this.ConfigurationFile;
-            //    config.Category = item.Attribute("Category")?.Value;
-            //    configItemsList.Add(config);
-            //}
-
-            //return configItemsList;
+        public void SetValue(string key, string value, string application, string file, string category)
+        {
+            ValidateApplicationConfigurationNode(application);
+            ValidateKeyNode(application, key, value, category);
         }
 
         public string GetValue(string key, string application, string file)

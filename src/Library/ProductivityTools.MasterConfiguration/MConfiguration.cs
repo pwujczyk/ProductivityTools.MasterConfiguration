@@ -19,6 +19,7 @@ namespace ProductivityTools.MasterConfiguration
 
         static MConfiguration()
         {
+            ApplicationName = string.Empty;
         }
 
         public static MConfiguration Configuration { get; } = new MConfiguration();
@@ -28,7 +29,7 @@ namespace ProductivityTools.MasterConfiguration
             get
             {
                 var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
-                return director.GetValue(key);
+                return director.GetValue(key, ApplicationName);
             }
         }
 
@@ -58,10 +59,10 @@ namespace ProductivityTools.MasterConfiguration
             director.Migrate(ovverideExistingOnes);
         }
 
-        public static IList<ConfigItem> GetValues(string category=null, string application=null, string file=null, string value=null, string key=null)
+        public static IList<ConfigItem> GetValues(string category = null, string application = null, string file = null, string value = null, string key = null)
         {
             var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
-            var result= director.GetAllValues(category,application,file,value,key);
+            var result = director.GetAllValues(category, application, file, value, key);
             return result;
         }
 
@@ -70,13 +71,14 @@ namespace ProductivityTools.MasterConfiguration
         /// </summary>
         /// <param name="key">Key which together with file and application identify item</param>
         /// <param name="value">Value</param>
-        /// <param name="application">Application which should use given item, if not provided "Common" value will be used</param>
-        /// <param name="file">File for given application it allows to create different configurations for different environment for the same applicatin. If not provided "Common" value will be used</param>
-        /// <param name="category">Category for item, it is just for organisation purpose. If not provided "Common" value will be used</param>
-        public static void SetValue(string key, string value, string application="Common", string file="Common", string category="Common")
+        /// <param name="application">Application which should use given item, if not provided empty string value will be used</param>
+        /// <param name="file">File for given application it allows to create different configurations for different environment for the same applicatin. If not provided empty string value will be used</param>
+        /// <param name="category">Category for item, it is just for organisation purpose. If not provided empty string value will be used</param>
+        public static void SetValue(string key, string value, string application = null, string file = "", string category = "")
         {
-            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
-            director.SetValue(key, value, application, file, category);
+            var applicationunion = application ?? ApplicationName;
+            var director = new ConfigurationDirector(ConfigurationFileName, applicationunion, CurrentDomain);
+            director.SetValue(key, value, applicationunion, file, category);
         }
     }
 }
