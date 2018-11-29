@@ -154,7 +154,18 @@ namespace ProductivityTools.MasterConfiguration.Tests
 
             MConfiguration.SetApplicationName("NotExistsApplication");
             MConfiguration.SetConfigurationFileName(DefaultFileName);
-            MConfiguration.SetValue("KeySetValue1", "Value1","NotExistsApplication");
+            MConfiguration.SetValue("KeySetValue1", "Value1", "NotExistsApplication");
+
+            var x = MConfiguration.Configuration["KeySetValue1"];
+            Assert.AreEqual("Value1", x);
+        }
+
+        [TestMethod]
+        public void SetValueWithNullfields()
+        {
+            SetFileConfiguration(DefaultFileName);
+
+            MConfiguration.SetValue("KeySetValue1", "Value1", null, null, null);
 
             var x = MConfiguration.Configuration["KeySetValue1"];
             Assert.AreEqual("Value1", x);

@@ -1,4 +1,5 @@
 ﻿using ProductivityTools.MasterConfiguration.Directors;
+using ProductivityTools.MasterConfiguration.Extensions;
 using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
@@ -77,8 +78,8 @@ namespace ProductivityTools.MasterConfiguration
         public static void SetValue(string key, string value, string application = null, string file = "", string category = "")
         {
             var applicationunion = application ?? ApplicationName;
-            var director = new ConfigurationDirector(ConfigurationFileName, applicationunion, CurrentDomain);
-            director.SetValue(key, value, applicationunion, file, category);
+            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
+            director.SetValue(key, value, applicationunion, file.NormalizeString(), category.NormalizeString());
         }
     }
 }
