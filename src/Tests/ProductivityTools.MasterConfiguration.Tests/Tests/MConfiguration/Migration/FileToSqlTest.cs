@@ -71,9 +71,10 @@ namespace ProductivityTools.MasterConfiguration.Tests
         {
             SetSQLConfigurationToMigrate(DefaultFileName);
 
-            MConfiguration.SetApplicationName(ApplicationName);
-            MConfiguration.MigrateConfiguration(ovverideExistingOnes:true);
-            var result=MConfiguration.Configuration["Key1"];
+            MConfiguration configuration = new MConfiguration();
+            configuration.SetApplicationName(ApplicationName);
+            configuration.MigrateConfiguration(ovverideExistingOnes:true);
+            var result=configuration["Key1"];
             Assert.AreEqual(result, "Value1");
         }
 
@@ -82,23 +83,24 @@ namespace ProductivityTools.MasterConfiguration.Tests
         {
             SetSQLConfigurationToMigrate(DefaultFileName);
 
-            MConfiguration.SetConfigurationFileName(DefaultFileName);
-            MConfiguration.SetApplicationName(ApplicationName);
-            MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
+            MConfiguration configuration = new MConfiguration();
+            configuration.SetConfigurationFileName(DefaultFileName);
+            configuration.SetApplicationName(ApplicationName);
+            configuration.MigrateConfiguration(ovverideExistingOnes: true);
 
-            var value1result = MasterConfiguration.MConfiguration.Configuration["Key1"];
+            var value1result = configuration["Key1"];
             Assert.AreEqual(value1result, "Value1");
-            var value2result = MasterConfiguration.MConfiguration.Configuration["Key2"];
+            var value2result = configuration["Key2"];
             Assert.AreEqual(value2result, "Value2");
 
             SetSQLConfigurationToMigrateSecondOne(DefaultFileName);
-            MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
+            configuration.MigrateConfiguration(ovverideExistingOnes: true);
 
-            value1result = MasterConfiguration.MConfiguration.Configuration["Key1"];
+            value1result = configuration["Key1"];
             Assert.AreEqual(value1result, "Value11");
-            value2result = MasterConfiguration.MConfiguration.Configuration["Key2"];
+            value2result = configuration["Key2"];
             Assert.AreEqual(value2result, "Value22");
-            var value3result = MasterConfiguration.MConfiguration.Configuration["Key3"];
+            var value3result = configuration["Key3"];
             Assert.AreEqual(value3result, "Value33");
         }
 
@@ -107,23 +109,23 @@ namespace ProductivityTools.MasterConfiguration.Tests
         {
             SetSQLConfigurationToMigrate(DefaultFileName);
 
-
-            MConfiguration.SetConfigurationFileName(DefaultFileName);
-            MConfiguration.SetApplicationName(ApplicationName);
-            MConfiguration.MigrateConfiguration(ovverideExistingOnes: true);
-            var value1result = MasterConfiguration.MConfiguration.Configuration["Key1"];
+            MConfiguration configuration = new MConfiguration();
+            configuration.SetConfigurationFileName(DefaultFileName);
+            configuration.SetApplicationName(ApplicationName);
+            configuration.MigrateConfiguration(ovverideExistingOnes: true);
+            var value1result = configuration["Key1"];
             Assert.AreEqual(value1result, "Value1");
-            var value2result = MasterConfiguration.MConfiguration.Configuration["Key2"];
+            var value2result = configuration["Key2"];
             Assert.AreEqual(value2result, "Value2");
 
             SetSQLConfigurationToMigrateSecondOne(DefaultFileName);
-            MasterConfiguration.MConfiguration.MigrateConfiguration(ovverideExistingOnes: false);
+            configuration.MigrateConfiguration(ovverideExistingOnes: false);
 
-            value1result = MasterConfiguration.MConfiguration.Configuration["Key1"];
+            value1result = configuration["Key1"];
             Assert.AreEqual(value1result, "Value1");
-            value2result = MasterConfiguration.MConfiguration.Configuration["Key2"];
+            value2result = configuration["Key2"];
             Assert.AreEqual(value2result, "Value2");
-            var value3result = MasterConfiguration.MConfiguration.Configuration["Key3"];
+            var value3result = configuration["Key3"];
             Assert.AreEqual(value3result, "Value33");
         }
 

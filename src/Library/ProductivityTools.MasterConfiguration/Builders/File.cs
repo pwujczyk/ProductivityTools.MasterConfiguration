@@ -133,23 +133,26 @@ namespace ProductivityTools.MasterConfiguration.Builders
 
         public IList<ConfigItem> GetAllValues()
         {
-            var applicationConfigurationNode = Xml.Root.Element(ApplicationConfiguration);
-            var nameAttribute = applicationConfigurationNode.Attribute("Name");
-            string applicationName = nameAttribute?.Value;
-
-            var valueXml = applicationConfigurationNode.Descendants().ToList();
+            var applicationConfigurationNode = Xml.Root.Elements(ApplicationConfiguration);
             List<ConfigItem> configItemsList = new List<ConfigItem>();
-            foreach (var item in valueXml)
+            foreach (var application in applicationConfigurationNode)
             {
-                var config = new ConfigItem();
-                config.Key = item.Name.LocalName;
-                config.Value = item.Value;
-                config.Application = applicationName;
-                config.File = this.ConfigurationFile;
-                config.Category = item.Attribute("Category")?.Value;
-                configItemsList.Add(config);
-            }
+                var nameAttribute = application.Attribute("Name");
+                string applicationName = nameAttribute?.Value;
 
+                var valueXml = application.Descendants().ToList();
+  
+                foreach (var item in valueXml)
+                {
+                    var config = new ConfigItem();
+                    config.Key = item.Name.LocalName;
+                    config.Value = item.Value;
+                    config.Application = applicationName;
+                    config.File = this.ConfigurationFile;
+                    config.Category = item.Attribute("Category")?.Value;
+                    configItemsList.Add(config);
+                }
+            }
             return configItemsList;
         }
 

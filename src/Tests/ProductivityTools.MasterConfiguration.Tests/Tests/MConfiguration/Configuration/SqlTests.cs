@@ -60,10 +60,13 @@ namespace ProductivityTools.MasterConfiguration.Tests
         {
             try
             {
+
                 SetSQLConfigurationDefaultFileName(DefaultFileName);
-                MConfiguration.SetConfigurationFileName(DefaultFileName);
-                MConfiguration.SetApplicationName(ApplicationName);
-                var x = MConfiguration.Configuration["randomnotexistskey"];
+
+                MConfiguration configuration = new MConfiguration();
+                configuration.SetConfigurationFileName(DefaultFileName);
+                configuration.SetApplicationName(ApplicationName);
+                var x = configuration["randomnotexistskey"];
             }
             catch (Exception ex)
             {
@@ -81,9 +84,10 @@ namespace ProductivityTools.MasterConfiguration.Tests
             var configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = applicationName, File = DefaultFileName };
             new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
 
-            MConfiguration.SetConfigurationFileName(DefaultFileName);
-            MConfiguration.SetApplicationName(applicationName);
-            var x = MConfiguration.Configuration[configItem.Key];
+            MConfiguration configuration = new MConfiguration();
+            configuration.SetConfigurationFileName(DefaultFileName);
+            configuration.SetApplicationName(applicationName);
+            var x = configuration[configItem.Key];
             Assert.AreEqual(configItem.Value, x, "Example value from database");
         }
 
@@ -100,10 +104,11 @@ namespace ProductivityTools.MasterConfiguration.Tests
 
             configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue123", Application = "TestApplication1", File = testFileXml };
             new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
-            
-            MConfiguration.SetConfigurationFileName(productionFileXml);
-            MConfiguration.SetApplicationName(applicationName);
-            var x = MConfiguration.Configuration[configItem.Key];
+
+            MConfiguration configuration = new MConfiguration();
+            configuration.SetConfigurationFileName(productionFileXml);
+            configuration.SetApplicationName(applicationName);
+            var x = configuration[configItem.Key];
         }
 
         [TestMethod]
@@ -116,14 +121,14 @@ namespace ProductivityTools.MasterConfiguration.Tests
             configItem = new ConfigItem() { Key = "examplekey124", Value = "exampleValue124", Application = applicationName, File = DefaultFileName, Category = "Category2" };
             new SQLAccess().InsertValueIfNotExists(DatabaseSetup.ConnectionString, DatabaseSetup.Schema, DatabaseSetup.Table, configItem);
 
+            MConfiguration configuration = new MConfiguration();
+            configuration.SetConfigurationFileName(DefaultFileName);
+            configuration.SetApplicationName(applicationName);
 
-            MConfiguration.SetConfigurationFileName(DefaultFileName);
-            MConfiguration.SetApplicationName(applicationName);
-
-            var result = MConfiguration.GetValues();
+            var result =configuration.GetValues();
             Assert.AreEqual(result.Count, 2);
 
-            result = MConfiguration.GetValues(category: "Category2");
+            result = configuration.GetValues(category: "Category2");
             Assert.AreEqual(result.Single().Value, "exampleValue124");
         }
     }
