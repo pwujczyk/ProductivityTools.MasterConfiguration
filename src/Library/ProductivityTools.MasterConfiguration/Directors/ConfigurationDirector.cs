@@ -15,7 +15,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
         {
         }
 
-        public IList<ConfigItem> GetAllValues(string category, string application, string file, string value, string key)
+        public IList<ConfigItem> GetAllValues(string category, string application, string value, string key)
         {
             IEnumerable<ConfigItem> result = GetBuilder().GetAllValues();
             Action<string, Func<ConfigItem, bool>> a = (filter, action) =>
@@ -27,7 +27,6 @@ namespace ProductivityTools.MasterConfiguration.Directors
                };
             a(category, x => x.Category == category);
             a(application, x => x.Application == application);
-            a(file, x => x.File == file);
             a(value, x => x.Value == value);
             a(key, x => x.Key == key);
 

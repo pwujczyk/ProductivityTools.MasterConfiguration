@@ -23,7 +23,7 @@ namespace ProductivityTools.MasterConfiguration
             ApplicationName = string.Empty;
         }
 
-        public static MConfiguration Configuration { get; } = new MConfiguration();
+       // public static MConfiguration Configuration { get; } = new MConfiguration();
 
         public string this[string key]
         {
@@ -34,36 +34,36 @@ namespace ProductivityTools.MasterConfiguration
             }
         }
 
-        public static void SetConfigurationFileName(string configurationFileName)
+        public void SetConfigurationFileName(string configurationFileName)
         {
             ConfigurationFileName = configurationFileName;
         }
 
-        public static void SetApplicationName(string applicationName)
+        public void SetApplicationName(string applicationName)
         {
             ApplicationName = applicationName;
         }
 
-        public static void SetEnvironmentVariableName(string environmentVariableName)
+        public void SetEnvironmentVariableName(string environmentVariableName)
         {
             EnvironmentVariableName = environmentVariableName;
         }
 
-        public static void SetCurrentDomainPath(bool currentDomain)
+        public void SetCurrentDomainPath(bool currentDomain)
         {
             CurrentDomain = currentDomain;
         }
 
-        public static void MigrateConfiguration(bool ovverideExistingOnes)
+        public void MigrateConfiguration(bool ovverideExistingOnes)
         {
             var director = new MigrationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
             director.Migrate(ovverideExistingOnes);
         }
 
-        public static IList<ConfigItem> GetValues(string category = null, string application = null, string file = null, string value = null, string key = null)
+        public IList<ConfigItem> GetValues(string application = null, string category = null, string value = null, string key = null)
         {
             var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
-            var result = director.GetAllValues(category, application, file, value, key);
+            var result = director.GetAllValues(category, application, value, key);
             return result;
         }
 
@@ -75,7 +75,7 @@ namespace ProductivityTools.MasterConfiguration
         /// <param name="application">Application which should use given item, if not provided empty string value will be used</param>
         /// <param name="file">File for given application it allows to create different configurations for different environment for the same applicatin. If not provided empty string value will be used</param>
         /// <param name="category">Category for item, it is just for organisation purpose. If not provided empty string value will be used</param>
-        public static void SetValue(string key, string value, string application = null, string file = "", string category = "")
+        public void SetValue(string key, string value, string application = null, string file = "", string category = "")
         {
             var applicationunion = application ?? ApplicationName;
             var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
