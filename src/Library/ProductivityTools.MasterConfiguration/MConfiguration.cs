@@ -12,16 +12,12 @@ namespace ProductivityTools.MasterConfiguration
 {
     public class MConfiguration
     {
-        private static string ConfigurationFileName;
-        private static string ApplicationName;
-        private static string EnvironmentVariableName;
+        public string ConfigurationFileName { get; private set; }
+        private string ApplicationName=string.Empty;
+        private string EnvironmentVariableName;
 
         private static bool CurrentDomain = false;
 
-        static MConfiguration()
-        {
-            ApplicationName = string.Empty;
-        }
 
        // public static MConfiguration Configuration { get; } = new MConfiguration();
 
