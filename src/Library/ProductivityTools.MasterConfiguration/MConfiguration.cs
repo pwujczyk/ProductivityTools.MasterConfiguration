@@ -3,6 +3,7 @@ using ProductivityTools.MasterConfiguration.Extensions;
 using ProductivityTools.MasterConfiguration.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +14,12 @@ namespace ProductivityTools.MasterConfiguration
     public class MConfiguration
     {
         public string ConfigurationFileName { get; private set; }
-        private string ApplicationName=string.Empty;
+        private string ApplicationName = string.Empty;
         private string EnvironmentVariableName;
 
         private static bool CurrentDomain = false;
 
 
-       // public static MConfiguration Configuration { get; } = new MConfiguration();
 
         public string this[string key]
         {

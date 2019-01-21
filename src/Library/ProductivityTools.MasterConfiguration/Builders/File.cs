@@ -96,13 +96,11 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             get
             {
-
                 this.xml = XDocument.Load(ConfigurationPath);
                 return this.xml;
             }
             set
             {
-
                 this.xml.Save(ConfigurationPath);
             }
         }
