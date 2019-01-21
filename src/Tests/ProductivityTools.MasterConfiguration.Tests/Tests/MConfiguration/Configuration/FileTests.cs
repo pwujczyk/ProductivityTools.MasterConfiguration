@@ -142,6 +142,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
 
             MConfiguration configuration = new MConfiguration();
             configuration.SetConfigurationFileName(differentFileName);
+            configuration.SetApplicationName(ApplicationName);
             var x = configuration["Key1"];
             Assert.AreEqual("Value1", x, "Value form key");
         }
@@ -206,7 +207,9 @@ namespace ProductivityTools.MasterConfiguration.Tests
             SetFileConfiguration(DefaultFileName);
 
             MConfiguration configuration = new MConfiguration();
+            configuration.SetConfigurationFileName(DefaultFileName);
             configuration.SetValue("KeySetValue1", "Value1", null, null, null);
+            
 
             var x = configuration["KeySetValue1"];
             Assert.AreEqual("Value1", x);

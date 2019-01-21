@@ -73,6 +73,7 @@ namespace ProductivityTools.MasterConfiguration.Tests
 
             MConfiguration configuration = new MConfiguration();
             configuration.SetApplicationName(ApplicationName);
+            configuration.SetConfigurationFileName(DefaultFileName);
             configuration.MigrateConfiguration(ovverideExistingOnes:true);
             var result=configuration["Key1"];
             Assert.AreEqual(result, "Value1");
