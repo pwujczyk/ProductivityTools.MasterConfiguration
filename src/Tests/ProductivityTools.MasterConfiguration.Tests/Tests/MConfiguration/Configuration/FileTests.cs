@@ -122,6 +122,17 @@ namespace ProductivityTools.MasterConfiguration.Tests
         }
 
         [TestMethod]
+        public void GetValuesForTwoApplications()
+        {
+            SetFileConfigurationWithTwoApplications(DefaultFileName);
+
+            MConfiguration configuration = new MConfiguration();
+            configuration.SetConfigurationFileName(DefaultFileName);
+            var result = configuration.GetValues();
+            Assert.AreEqual(result.Count, 6);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(FileNotFoundException))]
         public void GetFileValueFromDifferentConfigurationFileAnfFileMissing()
         {
