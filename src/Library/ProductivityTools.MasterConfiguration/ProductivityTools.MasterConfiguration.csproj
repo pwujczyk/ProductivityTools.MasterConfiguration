@@ -44,6 +44,7 @@
     <Compile Include="Builders\IBuilder.cs" />
     <Compile Include="Builders\IMigrationBuilder.cs" />
     <Compile Include="Builders\SqlServer.cs" />
+    <Compile Include="ConfigSource.cs" />
     <Compile Include="Exceptions\ApplicationNameNotSet.cs" />
     <Compile Include="Exceptions\ConfigurationFileNotSet.cs" />
     <Compile Include="Extensions\ConfigurationXmlExtensions.cs" />
@@ -61,7 +62,9 @@
     <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NugetMetadata.nuspec" />
+    <None Include="NugetMetadata.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

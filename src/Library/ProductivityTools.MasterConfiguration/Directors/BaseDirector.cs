@@ -10,12 +10,12 @@ namespace ProductivityTools.MasterConfiguration.Directors
     public class BaseDirector
     {
         protected string ConfigurationFileName;
-        protected bool CurrentDomain;
+        protected ConfigSourceLocation configSourceLocation;
 
-        public BaseDirector(string configurationFileName, string applicationName, bool currentDomain) 
+        public BaseDirector(string configurationFileName, string applicationName, ConfigSourceLocation configSourceLocation) 
         {
             this.ConfigurationFileName = configurationFileName;
-            this.CurrentDomain = currentDomain;
+            this.configSourceLocation = configSourceLocation;
         }
 
         protected string ConfigurationFilePath

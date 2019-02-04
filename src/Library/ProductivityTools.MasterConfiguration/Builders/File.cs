@@ -13,7 +13,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
     {
 
         public string configurationFile;
-        private bool CurrentDomain;
+        private ConfigSourceLocation ConfigSourceLocation;
 
         public string ConfigurationFile
         {
@@ -59,26 +59,30 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
         }
 
-        public File(string configurationFile, bool currentDomain)
+        public File(string configurationFile, ConfigSourceLocation configSourceLocation)
         {
             this.ConfigurationFile = configurationFile;
-            this.CurrentDomain = currentDomain;
+            this.ConfigSourceLocation = configSourceLocation;
         }
 
         private string GetAssemblyDirectory
         {
             get
             {
-                if (this.CurrentDomain)
+                switch (this.ConfigSourceLocation)
                 {
-                    string baseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
-                    return baseDirectoryPath;
-                }
-                else
-                {
-                    var assemblylocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                    var directoryName = System.IO.Path.GetDirectoryName(assemblylocation);
-                    return directoryName;
+                    case ConfigSourceLocation.ExecutingAssemblyLocation:
+                        var executingAssemblylocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                        var executingDirectoryName = System.IO.Path.GetDirectoryName(executingAssemblylocation);
+                        return executingDirectoryName;
+                    case ConfigSourceLocation.CallingAssemblyLocation:
+                        var callingAssemblylocation = System.Reflection.Assembly.GetCallingAssembly().Location;
+                        var callingDirectoryName = System.IO.Path.GetDirectoryName(callingAssemblylocation);
+                        return callingDirectoryName;
+                    case ConfigSourceLocation.CurrentDomainBaseDirectory:
+                    default:
+                        string baseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+                        return baseDirectoryPath;
                 }
             }
         }
@@ -139,7 +143,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
                 string applicationName = nameAttribute?.Value;
 
                 var valueXml = application.Descendants().ToList();
-  
+
                 foreach (var item in valueXml)
                 {
                     var config = new ConfigItem();

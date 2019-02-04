@@ -10,11 +10,11 @@ namespace ProductivityTools.MasterConfiguration.Directors
 {
     public class MigrationDirector : BaseDirector
     {
-        public MigrationDirector(string configurationFileName, string applicationName, bool currentDomain) : base(configurationFileName, applicationName, currentDomain) { }
+        public MigrationDirector(string configurationFileName, string applicationName, ConfigSourceLocation configSourceLocation) : base(configurationFileName, applicationName, configSourceLocation) { }
 
         public void Migrate(bool ovverideExistingOnes)
         {
-            File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
+            File fileBuilder = new File(ConfigurationFileName, configSourceLocation);
             var fileValues = fileBuilder.GetAllValues();
 
             IMigrationBuilder targetBuilder = new SqlServer(fileBuilder.ConnectionString, fileBuilder.Schema, fileBuilder.Table);
