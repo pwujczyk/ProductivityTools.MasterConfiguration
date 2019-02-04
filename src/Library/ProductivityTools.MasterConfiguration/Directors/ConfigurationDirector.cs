@@ -11,7 +11,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 {
     class ConfigurationDirector : BaseDirector
     {
-        public ConfigurationDirector(string configurationFileName, string applicationName, bool currentDomain) : base(configurationFileName, applicationName, currentDomain)
+        public ConfigurationDirector(string configurationFileName, string applicationName, ConfigSourceLocation configSourceLocation) : base(configurationFileName, applicationName, configSourceLocation)
         {
         }
 
@@ -35,7 +35,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 
         private IBuilder GetBuilder()
         {
-            File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
+            File fileBuilder = new File(ConfigurationFileName, configSourceLocation);
 
             switch (fileBuilder.SourceType)
             {
@@ -50,7 +50,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 
         public string GetValue(string key, string applicationName)
         {
-            File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
+            File fileBuilder = new File(ConfigurationFileName, configSourceLocation);
             switch (fileBuilder.SourceType)
             {
                 case SourceType.File:
@@ -64,7 +64,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 
         public void SetValue(string key, string value, string application, string file, string category)
         {
-            File fileBuilder = new File(ConfigurationFileName, CurrentDomain);
+            File fileBuilder = new File(ConfigurationFileName, configSourceLocation);
             switch (fileBuilder.SourceType)
             {
                 case SourceType.File:

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ProductivityTools.MasterConfiguration</id>
-    <version>0.0.8</version>
+    <version>0.1.0</version>
     <authors>Pawel Wujczyk</authors>
     <owners>Pawel Wujczyk</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

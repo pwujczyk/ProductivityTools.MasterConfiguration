@@ -17,7 +17,7 @@ namespace ProductivityTools.MasterConfiguration
         private string ApplicationName = string.Empty;
         private string EnvironmentVariableName;
 
-        private static bool CurrentDomain = false;
+        private static ConfigSourceLocation ConfigSourceLocation = ConfigSourceLocation.CurrentDomainBaseDirectory;
 
 
 
@@ -25,7 +25,7 @@ namespace ProductivityTools.MasterConfiguration
         {
             get
             {
-                var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
+                var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, ConfigSourceLocation);
                 return director.GetValue(key, ApplicationName);
             }
         }
@@ -45,20 +45,20 @@ namespace ProductivityTools.MasterConfiguration
             EnvironmentVariableName = environmentVariableName;
         }
 
-        public void SetCurrentDomainPath(bool currentDomain)
+        public void SetConfigFileConfiguration(ConfigSourceLocation configSourceLocation)
         {
-            CurrentDomain = currentDomain;
+            ConfigSourceLocation = configSourceLocation;
         }
 
         public void MigrateConfiguration(bool ovverideExistingOnes)
         {
-            var director = new MigrationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
+            var director = new MigrationDirector(ConfigurationFileName, ApplicationName, ConfigSourceLocation);
             director.Migrate(ovverideExistingOnes);
         }
 
         public IList<ConfigItem> GetValues(string application = null, string category = null, string value = null, string key = null)
         {
-            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
+            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, ConfigSourceLocation);
             var result = director.GetAllValues(category, application, value, key);
             return result;
         }
@@ -74,7 +74,7 @@ namespace ProductivityTools.MasterConfiguration
         public void SetValue(string key, string value, string application = null, string file = "", string category = "")
         {
             var applicationunion = application ?? ApplicationName;
-            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, CurrentDomain);
+            var director = new ConfigurationDirector(ConfigurationFileName, ApplicationName, ConfigSourceLocation);
             director.SetValue(key, value, applicationunion, file.NormalizeString(), category.NormalizeString());
         }
     }
