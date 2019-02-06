@@ -62,6 +62,10 @@
     <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configuration.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="NugetMetadata.nuspec">
       <SubType>Designer</SubType>
     </None>
