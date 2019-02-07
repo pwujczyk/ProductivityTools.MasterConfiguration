@@ -30,8 +30,8 @@ namespace ProductivityTools.MasterConfiguration.Tests
             string text = @"<Configuration>
                                 <Source Type=""File""></Source>
                                 <ApplicationConfiguration Name=""ApplicationName"">
-                                    <Key1>Value1</Key1>
-                                    <Key2 Category=""Category2"">Value2</Key2>
+                                    <Config Key=""Key1"">Value1</Config>
+                                    <Config Key=""Key2"" Category=""Category2"">Value2</Config>
                                 </ApplicationConfiguration>
                             </Configuration>";
             System.IO.File.WriteAllText($"{AssemblyDirectory}\\{name}", text);
@@ -43,9 +43,9 @@ namespace ProductivityTools.MasterConfiguration.Tests
             string text = @"<Configuration>
                                 <Source Type=""File""></Source>
                                 <ApplicationConfiguration Name=""ApplicationName"">
-                                    <Key1 Category=""Category1"">Value11</Key1>
-                                    <Key1 Category=""Category2"">Value11</Key1>
-                                    <Key3 Category=""Category3"">Value33</Key3>
+                                    <Config Key=""Key1"" Category=""Category1"">Value11</Config>
+                                    <Config Key=""Key1"" Category=""Category2"">Value11</Config>
+                                    <Config Key=""Key3"" Category=""Category3"">Value33</Config>
                                 </ApplicationConfiguration>
                             </Configuration>";
             System.IO.File.WriteAllText($"{AssemblyDirectory}\\{name}", text);
@@ -57,14 +57,14 @@ namespace ProductivityTools.MasterConfiguration.Tests
             string text = @"<Configuration>
                                 <Source Type=""File""></Source>
                                 <ApplicationConfiguration Name=""ApplicationName1"">
-                                    <App11 Category=""Category1"">Value11</App11>
-                                    <App12 Category=""Category2"">Value11</App12>
-                                    <App13 Category=""Category3"">Value33</App13>
+                                    <Config Key=""App11"" Category=""Category1"">Value11</Config>
+                                    <Config Key=""App12"" Category=""Category2"">Value11</Config>
+                                    <Config Key=""App13"" Category=""Category3"">Value33</Config>
                                 </ApplicationConfiguration>
                                 <ApplicationConfiguration Name=""ApplicationName2"">
-                                    <App21 Category=""app2"">Value11</App21>
-                                    <App22 Category=""Category2"">Value11</App22>
-                                    <App23 Category=""Category3"">Value33</App23>
+                                    <Config Key=""App21"" Category=""app2"">Value11</Config>
+                                    <Config Key=""App22"" Category=""Category2"">Value11</Config>
+                                    <Config Key=""App23"" Category=""Category3"">Value33</Config>
                                 </ApplicationConfiguration>
                             </Configuration>";
             System.IO.File.WriteAllText($"{AssemblyDirectory}\\{name}", text);
