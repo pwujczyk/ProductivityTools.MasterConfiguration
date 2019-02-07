@@ -162,7 +162,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             var valueXml = Xml.Descendants(ApplicationConfiguration)
                 .Single(x => x.Attribute("Name").Value == application)
-                .Descendants(key).ToList();
+                .Descendants("Config").Where(x=>x.Attribute("Key").Value==key).ToList();
             if (valueXml.Any() == false)
             {
                 throw new KeyNotExists(key);
@@ -179,8 +179,6 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             Xml.Save(ConfigurationPath);
         }
-
-
 
         private const string ApplicationKey = "Application";
         private const string ConfigurationKey = "Configuration";
@@ -211,7 +209,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
             var document = Xml;
             var applicationNode = document.Element(ConfigurationKey)
                 .Elements(ApplicationConfiguration).Single(x => x.Attribute("Name").Value == applicationName)
-                .Element(key);
+                .Elements("Config").Where(x => x.Attribute("Key").Value == key).SingleOrDefault();
             if (applicationNode == null)
             {
                 document.Element(ConfigurationKey)
@@ -221,7 +219,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
                 (
                      new XElement
                          (
-                             key, value, new XAttribute("Category", category)
+                             "Config", value, new XAttribute("Key",key), new XAttribute("Category", category)
                          )
                   );
             }
