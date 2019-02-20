@@ -65,7 +65,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
             this.ConfigSourceLocation = configSourceLocation;
         }
 
-        private string GetAssemblyDirectory
+        private string GetConfigDirectory
         {
             get
             {
@@ -91,7 +91,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
         {
             get
             {
-                return System.IO.Path.Combine(GetAssemblyDirectory, ConfigurationFile);
+                return System.IO.Path.Combine(GetConfigDirectory, ConfigurationFile);
             }
         }
 
@@ -160,18 +160,28 @@ namespace ProductivityTools.MasterConfiguration.Builders
 
         public string GetValue(string key, string application)
         {
-            var valueXml = Xml.Descendants(ApplicationConfiguration)
-                .Single(x => x.Attribute("Name").Value == application)
-                .Descendants("Config").Where(x=>x.Attribute("Key").Value==key).ToList();
-            if (valueXml.Any() == false)
+            //var valueXml = Xml.Descendants(ApplicationConfiguration)
+            //.Single(x => x.Attribute("Name").Value == application)
+            //.Descendants("Config").Where(x => x.Attribute("Key").Value == key).ToList();
+
+
+            var valueXml = Xml.Descendants(ApplicationConfiguration).FirstOrDefault(x => x.Attribute("Name").Value == application);
+            if (valueXml == null)
             {
-                throw new KeyNotExists(key);
+                throw new Exception($"Missing application {application} node in configuration file");
+            };
+
+                var value = valueXml.Descendants("Config").Where(x => x.Attribute("Key") !=null &&  x.Attribute("Key").Value == key).ToList();
+            if (value.Count() == 0)
+            {
+                throw new Exception($"Missing Config element with th ekey {key} in configuration file");
             }
-            if (valueXml.Count() > 1)
+
+            if (value.Count() > 1)
             {
                 throw new KeyDeclaredMoreThanOne($"Key {key} is declared more than once in config file");
             }
-            var query = valueXml.Single();
+            var query = value.Single();
             return query.Value;
         }
 
@@ -219,7 +229,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
                 (
                      new XElement
                          (
-                             "Config", value, new XAttribute("Key",key), new XAttribute("Category", category)
+                             "Config", value, new XAttribute("Key", key), new XAttribute("Category", category)
                          )
                   );
             }

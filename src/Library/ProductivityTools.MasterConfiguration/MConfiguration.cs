@@ -14,6 +14,7 @@ namespace ProductivityTools.MasterConfiguration
     public class MConfiguration
     {
         public string ConfigurationFileName { get; private set; }
+        public string ConfiguratoinFileDirectory { get; private set; }
         private string ApplicationName = string.Empty;
         private string EnvironmentVariableName;
 
@@ -33,6 +34,11 @@ namespace ProductivityTools.MasterConfiguration
         public void SetConfigurationFileName(string configurationFileName)
         {
             ConfigurationFileName = configurationFileName;
+        }
+
+        public void SetConfigurationFileDirectory(string configurationFileDirectory)
+        {
+            this.ConfiguratoinFileDirectory = configurationFileDirectory;
         }
 
         public void SetApplicationName(string applicationName)
