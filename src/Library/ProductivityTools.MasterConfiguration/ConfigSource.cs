@@ -10,6 +10,7 @@ namespace ProductivityTools.MasterConfiguration
     {
         ExecutingAssemblyLocation,
         CallingAssemblyLocation,
-        CurrentDomainBaseDirectory
+        CurrentDomainBaseDirectory,
+        CustomPath
     }
 }
