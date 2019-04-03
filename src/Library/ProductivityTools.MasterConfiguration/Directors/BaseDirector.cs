@@ -10,9 +10,9 @@ namespace ProductivityTools.MasterConfiguration.Directors
     public class BaseDirector
     {
         protected string ConfigurationFileName;
-        protected ConfigSourceLocation configSourceLocation;
+        protected string configSourceLocation;
 
-        public BaseDirector(string configurationFileName, string applicationName, ConfigSourceLocation configSourceLocation) 
+        public BaseDirector(string configurationFileName, string applicationName, string configSourceLocation) 
         {
             this.ConfigurationFileName = configurationFileName;
             this.configSourceLocation = configSourceLocation;

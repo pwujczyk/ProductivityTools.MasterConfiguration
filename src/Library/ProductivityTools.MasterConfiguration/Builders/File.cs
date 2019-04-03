@@ -13,7 +13,7 @@ namespace ProductivityTools.MasterConfiguration.Builders
     {
 
         public string configurationFile;
-        private ConfigSourceLocation ConfigSourceLocation;
+        private string ConfigurationSourceDirectory;
 
         public string ConfigurationFile
         {
@@ -59,39 +59,34 @@ namespace ProductivityTools.MasterConfiguration.Builders
             }
         }
 
-        public File(string configurationFile, ConfigSourceLocation configSourceLocation)
+        public File(string configurationFile, string configurationSourceDirectory = "")
         {
             this.ConfigurationFile = configurationFile;
-            this.ConfigSourceLocation = configSourceLocation;
+            this.ConfigurationSourceDirectory = configurationSourceDirectory;
         }
 
-        private string GetConfigDirectory
-        {
-            get
-            {
-                switch (this.ConfigSourceLocation)
-                {
-                    case ConfigSourceLocation.ExecutingAssemblyLocation:
-                        var executingAssemblylocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                        var executingDirectoryName = System.IO.Path.GetDirectoryName(executingAssemblylocation);
-                        return executingDirectoryName;
-                    case ConfigSourceLocation.CallingAssemblyLocation:
-                        var callingAssemblylocation = System.Reflection.Assembly.GetCallingAssembly().Location;
-                        var callingDirectoryName = System.IO.Path.GetDirectoryName(callingAssemblylocation);
-                        return callingDirectoryName;
-                    case ConfigSourceLocation.CurrentDomainBaseDirectory:
-                    default:
-                        string baseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
-                        return baseDirectoryPath;
-                }
-            }
-        }
+        //private string GetConfigDirectory
+        //{
+        //    get
+        //    {
+        //        if (string.IsNullOrEmpty(this.ConfigurationSourceDirectory))
+        //        {
+        //            var executingAssemblylocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        //            var executingDirectoryName = System.IO.Path.GetDirectoryName(executingAssemblylocation);
+        //            return executingDirectoryName;
+        //        }
+        //        else
+        //        {
+        //            return this.ConfigurationSourceDirectory;
+        //        }
+        //    }
+        //}
 
         private string ConfigurationPath
         {
             get
             {
-                return System.IO.Path.Combine(GetConfigDirectory, ConfigurationFile);
+                return System.IO.Path.Combine(this.ConfigurationSourceDirectory, ConfigurationFile);
             }
         }
 
@@ -171,10 +166,10 @@ namespace ProductivityTools.MasterConfiguration.Builders
                 throw new Exception($"Missing application {application} node in configuration file");
             };
 
-                var value = valueXml.Descendants("Config").Where(x => x.Attribute("Key") !=null &&  x.Attribute("Key").Value == key).ToList();
+            var value = valueXml.Descendants("Config").Where(x => x.Attribute("Key") != null && x.Attribute("Key").Value == key).ToList();
             if (value.Count() == 0)
             {
-                throw new Exception($"Missing Config element with th ekey {key} in configuration file");
+                throw new KeyNotExists($"Missing Config element with the key {key} in configuration file");
             }
 
             if (value.Count() > 1)

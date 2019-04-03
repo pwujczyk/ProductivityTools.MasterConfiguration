@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ProductivityTools.MasterConfiguration
 {
-    public enum ConfigSourceLocation
-    {
-        ExecutingAssemblyLocation,
-        CallingAssemblyLocation,
-        CurrentDomainBaseDirectory,
-        CustomPath
-    }
+    //public enum ConfigSourceLocation
+    //{
+    //    ExecutingAssemblyLocation,
+    //    CallingAssemblyLocation,
+    //    CurrentDomainBaseDirectory,
+    //    CustomPath
+    //}
 }

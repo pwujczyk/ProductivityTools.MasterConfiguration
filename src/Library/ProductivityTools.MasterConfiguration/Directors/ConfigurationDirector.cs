@@ -11,7 +11,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 {
     class ConfigurationDirector : BaseDirector
     {
-        public ConfigurationDirector(string configurationFileName, string applicationName, ConfigSourceLocation configSourceLocation) : base(configurationFileName, applicationName, configSourceLocation)
+        public ConfigurationDirector(string configurationFileName, string applicationName, string configSourceLocation) : base(configurationFileName, applicationName, configSourceLocation)
         {
         }
 

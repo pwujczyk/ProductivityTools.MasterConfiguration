@@ -10,7 +10,7 @@ namespace ProductivityTools.MasterConfiguration.Directors
 {
     public class MigrationDirector : BaseDirector
     {
-        public MigrationDirector(string configurationFileName, string applicationName, ConfigSourceLocation configSourceLocation) : base(configurationFileName, applicationName, configSourceLocation) { }
+        public MigrationDirector(string configurationFileName, string applicationName, string configSourceLocation) : base(configurationFileName, applicationName, configSourceLocation) { }
 
         public void Migrate(bool ovverideExistingOnes)
         {
