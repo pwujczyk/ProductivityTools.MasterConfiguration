@@ -19,7 +19,7 @@ namespace ProductivityTools.MasterConfiguration
                 }
                 else
                 {
-                    string filePath = Path.Join(path, configName);
+                    string filePath = Path.Combine(path, configName);
                     configurationBuilder.AddJsonFile(filePath);
                 }
             }
