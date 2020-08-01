@@ -59,9 +59,9 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\ProductivityTools.MasterConfiguration\ProductivityTools.MasterConfiguration.csproj">
+    <ProjectReference Include="..\..\Library\ProductivityTools.MasterConfiguration\ProductivityTools.MasterConfiguration.Framework.csproj">
       <Project>{108cefcd-3617-4c60-bdf3-d1f77636fb62}</Project>
-      <Name>ProductivityTools.MasterConfiguration</Name>
+      <Name>ProductivityTools.MasterConfiguration.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
