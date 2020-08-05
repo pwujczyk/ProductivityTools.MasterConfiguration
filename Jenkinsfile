@@ -21,7 +21,7 @@ agent any
         }
 		stage('copyFiles') {
             steps {
-                bat('xcopy ".\\ProductivityTools.MasterConfiguration\\bin\\Release\\netstandard2.0\\publish\\" "C:\\Bin\\ProductivityTools.MasterConfiguration\\" /O /X /E /H /K')
+                bat('xcopy ".\\ProductivityTools.MasterConfiguration\\bin\\Release\\netstandard2.0\\publish" "C:\\Bin\\ProductivityTools.MasterConfiguration\\" /O /X /E /H /K')
 				                      
             }
         }
