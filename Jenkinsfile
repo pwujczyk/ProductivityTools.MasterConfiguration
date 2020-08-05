@@ -11,7 +11,7 @@ agent any
             steps {
                 // Get some code from a GitHub repository
                 git branch: 'master',
-                url: 'git@github.com:pwujczyk/ProductivityTools.MasterConfiguration.git'
+                url: 'https://github.com/pwujczyk/ProductivityTools.MasterConfiguration'
             }
         }
         stage('byebye') {
