@@ -14,6 +14,11 @@ agent any
                 url: 'https://github.com/pwujczyk/ProductivityTools.MasterConfiguration'
             }
         }
+		stage('build') {
+            steps {
+                bat(script: "dotnet publish ProductivityTools.MasterConfiguration.sln -c Release ", returnStdout: true)
+            }
+        }
         stage('byebye') {
             steps {
                 echo 'byebye'
