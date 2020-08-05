@@ -38,6 +38,21 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         });
 
 ```
+
+### Legacy applications
+
+Install nuget: **Microsoft.Extensions.Configuration.Json** 
+
+```c#
+IConfigurationRoot configuration = new ConfigurationBuilder()
+.AddMasterConfiguration()
+.Build();
+
+var r = configuration["Region"];
+return r;
+```
+
+
 #### Development scenario 
 If you want to use MasterConfiguration file during development you should setup two environment variables:
 - ASPNETCORE_ENVIRONMENT - MasterConfiguration (instead of Development)
