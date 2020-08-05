@@ -8,7 +8,7 @@
     <Product />
     <Description>Configuration which allows to read and write xml or sql config</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>Configuration</PackageTags>
+    <PackageTags>Configuration Master Main</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
