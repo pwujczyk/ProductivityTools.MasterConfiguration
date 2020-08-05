@@ -19,6 +19,12 @@ agent any
                 bat(script: "dotnet publish ProductivityTools.MasterConfiguration.sln -c Release ", returnStdout: true)
             }
         }
+		stage('copyFiles') {
+            steps {
+                bat('xcopy "ProductivityTools.MasterConfiguration\\bin\\Debug\\netstandard2.0\\publish" "C:\\Bin\\ProductivityTools.MasterConfiguratio\\" /O /X /E /H /K')
+				                      
+            }
+        }
         stage('byebye') {
             steps {
                 echo 'byebye'
