@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace ProductivityTools.MasterConfiguration
 {
-    public static class Class1
+    public static class MasterConfigurationExtensions
     {
         private static IConfigurationBuilder AddMasterConfigurationInternal(this IConfigurationBuilder configurationBuilder, string configName, bool force)
         {
@@ -19,7 +19,7 @@ namespace ProductivityTools.MasterConfiguration
                 }
                 else
                 {
-                    string filePath = Path.Join(path, configName);
+                    string filePath = Path.Combine(path, configName);
                     configurationBuilder.AddJsonFile(filePath);
                 }
             }
@@ -39,6 +39,5 @@ namespace ProductivityTools.MasterConfiguration
             var r = configurationBuilder.AddMasterConfigurationInternal($"{configName}.json", force);
             return r;
         }
-
     }
 }
