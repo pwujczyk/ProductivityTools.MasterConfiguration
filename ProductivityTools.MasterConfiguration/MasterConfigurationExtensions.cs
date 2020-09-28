@@ -12,7 +12,7 @@ namespace ProductivityTools.MasterConfiguration
             string aspnetCoreEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (force || aspnetCoreEnvironment == "MasterConfiguration")
             {
-                string path = Environment.GetEnvironmentVariable("MasterConfigurationPath");
+                string path = Environment.GetEnvironmentVariable(Consts.EnvironmentVariableName);
                 if (string.IsNullOrEmpty(path))
                 {
                     throw new Exception("Application uses MasterConfiguration, but MasterConfigurationPath hadn't been setup. Please setup MasterConfigurationPath environment variable which will point to the directory where master configuration is stored");
