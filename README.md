@@ -1,3 +1,17 @@
+<!--Category:C#--> 
+ <p align="right">
+        <a href="https://www.https://www.nuget.org/packages/ProductivityTools.MasterConfiguration/"><img   src="Images/Header/Nuget_border_40px.png" /></a>
+        <a href="http://productivitytools.tech/masterconfiguration/"><img src="Images/Header/ProductivityTools_green_40px_2.png" /><a> 
+        <a href="https://github.com/pwujczyk/ProductivityTools.MasterConfiguration"><img src="Images/Header/Github_border_40px.png" /></a>
+</p>
+<p align="center">
+    <a href="http://productivitytools.tech/">
+        <img src="Images/Header/LogoTitle_green_500px.png" />
+    </a>
+</p>
+
+
+
 # ProductivityTools.MasterConfiguration
 
 - shouldn't be commited to the public repository
@@ -12,7 +26,13 @@ When I am writing code very often I use configuration which shouldn't be shared 
 
 Idea MasterConfiguration is to store configuration of all applications in one place which could be pushed to private git repository.
 
-# Master Configuration usage:
+In detail:
+- you setup two environment variables for all application, one informing that you use MasterConfiguration, second that points to directory with configuration files
+- application during startup takes configuration from that place and read critical information from there
+- this place can be second git repository, which is private 
+- it is not most secured way of storing configuration, but it is most convienient way of storing configuration
+
+# Master Configuration usage
 
 ## Environment setup 
 - Environment variable **ASPNETCORE_ENVIRONMENT** needs to be set to `MasterConfiguration`
@@ -39,7 +59,18 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 
 ```
 
-### Legacy applications
+### Console applications
+
+```c#
+IConfigurationRoot configuration = new ConfigurationBuilder()
+.AddMasterConfiguration()
+.Build();
+
+var r = configuration["Region"];
+return r;
+```
+
+### Legacy applications 
 
 Install nuget: **Microsoft.Extensions.Configuration.Json** 
 
@@ -53,7 +84,7 @@ return r;
 ```
 
 
-#### Development scenario 
+### Development scenario 
 If you want to use MasterConfiguration file during development you should setup two environment variables:
 - ASPNETCORE_ENVIRONMENT - MasterConfiguration (instead of Development)
 - MasterConfigurationPath - Path to MasterConfiguration file
