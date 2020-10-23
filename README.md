@@ -10,10 +10,10 @@
     </a>
 </p>
 
-
-# ProductivityTools.MasterConfiguration
+# Master Configuration
 
 I am an author of many public projects, whenever I am publishing something I face an issue with configuration. Generally, I don't like maintaining config in the system variables so I needed to think about something different.
+
 <!--more-->
 
 My configuration:
@@ -36,16 +36,16 @@ In detail:
 - this place can be the second git repository, which is private 
 - it is not the most secured way of storing configuration, but it is a convenient option
 
-# Master Configuration usage
+## Master Configuration usage
 
-## Environment setup 
+### **Environment setup** 
 - Environment variable **ASPNETCORE_ENVIRONMENT** needs to be set to `MasterConfiguration`
 - Environment variable **MasterConfigurationPath** needs to point to the directory with configuration (for my case is D:\BitBucket\All.Configuration\)
 - In the directory mentioned above JSON file with configuration needs to be placed. JSON file should be called the main project file, for example, **ProductivityTools.Purchase.Api.json**. The name can be changed (checkout info below).
 
-## Application setup
+### **Application setup**
 
-### WebApi
+#### **WebApi**
 
 To the ``IConfigurationBuilder`` add ``AddMasterConfiguration`` extension method
 
@@ -83,7 +83,7 @@ public class TestUsers : ITestUsers
 }
 ```
 
-### Console applications
+#### **Console applications**
 
 ```c#
 IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -94,7 +94,7 @@ var r = configuration["Region"];
 return r;
 ```
 
-### Legacy applications 
+#### **Legacy application**s 
 
 Install nuget: **Microsoft.Extensions.Configuration.Json** 
 
@@ -108,7 +108,7 @@ return r;
 ```
 
 
-### Development scenario 
+#### **Development scenario**
 If you want to use MasterConfiguration file during development you should set up two environment variables:
 - ASPNETCORE_ENVIRONMENT - MasterConfiguration (instead of Development)
 - MasterConfigurationPath - Path to MasterConfiguration file
@@ -118,9 +118,9 @@ Or you could use **Force** flag described below
 <!--og-image-->
 ![Generate override](Images/ProjectProperties.png) 
 
-## Customization
+### **Customization**
 
-### Force flag 
+#### **Force flag**
 If we don't want to a setup environment variable (for example we would like to use it only for some simple validation) we can pass true to the force flag of the AddMasterConfiguration method. Then MasterConfiguration file will be added always to the configuration providers. (It doesn't mean that it will use always data from the master configuration file. If you add another provider after AddMasterConfiguration the last file will override the master configuration file)
 
 ```c#
