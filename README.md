@@ -59,6 +59,26 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 
 ```
 
+To use configuration just use standard DI with IConfiguration interface.
+
+```c#
+public class TestUsers : ITestUsers
+{
+    private readonly IConfiguration configuration;
+
+    public TestUsers(IConfiguration configuration)
+    {
+        this.configuration = configuration;
+    }
+
+    private string GetPawelPassword()
+    {
+        var s = this.configuration["pawelPassword"];
+        return s;
+    }
+}
+```
+
 ### Console applications
 
 ```c#
