@@ -1,6 +1,6 @@
 <!--Category:C#--> 
  <p align="right">
-        <a href="https://www.https://www.nuget.org/packages/ProductivityTools.MasterConfiguration/"><img   src="Images/Header/Nuget_border_40px.png" /></a>
+        <a href="https://www.nuget.org/packages/ProductivityTools.MasterConfiguration/"><img src="Images/Header/Nuget_border_40px.png" /></a>
         <a href="http://productivitytools.tech/masterconfiguration/"><img src="Images/Header/ProductivityTools_green_40px_2.png" /><a> 
         <a href="https://github.com/pwujczyk/ProductivityTools.MasterConfiguration"><img src="Images/Header/Github_border_40px.png" /></a>
 </p>
