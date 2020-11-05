@@ -43,6 +43,10 @@ In detail:
 - Environment variable **MasterConfigurationPath** needs to point to the directory with configuration (for my case is D:\BitBucket\All.Configuration\)
 - In the directory mentioned above JSON file with configuration needs to be placed. JSON file should be called the main project file, for example, **ProductivityTools.Purchase.Api.json**. The name can be changed (checkout info below).
 
+**To setup environment variable and file you can also use the PowerShell MasterConfiguration module, which automates those actions.**
+http://productivitytools.tech/powershell-master-configuration/
+Cmdlet Set-MasterConfiguration
+
 ### **Application setup**
 
 #### **WebApi**
